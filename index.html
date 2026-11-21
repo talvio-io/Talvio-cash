@@ -4,7 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="dark" />
-    <link rel="icon" href="data:," />
+    <link rel="icon" type="image/png" href="icons/icon-192.png" />
+    <link rel="apple-touch-icon" href="icons/icon-192.png" />
+    <link rel="manifest" href="manifest.json" />
     <title>Talvio — Print $TALV</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -637,7 +639,7 @@
           <div class="plate-label">PLATE Nº 1 · TALVIO MINT</div>
           <div class="coin-scene">
             <div class="coin-float">
-              <svg class="hero-coin" viewBox="0 0 400 400" role="img" aria-label="A dark steel $TALV coin with an engraved T monogram">
+              <svg class="hero-coin" viewBox="0 0 400 400" role="img" aria-label="A bright steel $TALV coin with an engraved T monogram">
                 <defs>
                   <radialGradient id="coinGlow" cx="0.5" cy="0.5" r="0.5">
                     <stop offset="0" stop-color="rgba(148,163,184,.13)"/>
@@ -645,15 +647,15 @@
                     <stop offset="1" stop-color="rgba(148,163,184,0)"/>
                   </radialGradient>
                   <radialGradient id="coinFace" cx="0.35" cy="0.3" r="0.95">
-                    <stop offset="0" stop-color="#3f434a"/>
-                    <stop offset="0.42" stop-color="#1d1f22"/>
-                    <stop offset="0.78" stop-color="#111214"/>
-                    <stop offset="1" stop-color="#0a0a0b"/>
+                    <stop offset="0" stop-color="#eef1f4"/>
+                    <stop offset="0.42" stop-color="#c6ccd3"/>
+                    <stop offset="0.78" stop-color="#939ca5"/>
+                    <stop offset="1" stop-color="#6a727c"/>
                   </radialGradient>
                   <linearGradient id="coinRim" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0" stop-color="#828d99"/>
-                    <stop offset="0.5" stop-color="#2f3338"/>
-                    <stop offset="1" stop-color="#4b545e"/>
+                    <stop offset="0" stop-color="#f7f9fb"/>
+                    <stop offset="0.5" stop-color="#aeb6bf"/>
+                    <stop offset="1" stop-color="#d3d9df"/>
                   </linearGradient>
                   <linearGradient id="sweepGrad" x1="0" y1="0" x2="1" y2="0">
                     <stop offset="0" stop-color="rgba(255,255,255,0)"/>
@@ -667,29 +669,29 @@
                 </defs>
                 <circle cx="200" cy="200" r="197" fill="url(#coinGlow)"/>
                 <!-- coin thickness: stacked edge layers -->
-                <circle cx="200" cy="213" r="150" fill="#0e0e0f"/>
-                <circle cx="200" cy="207" r="150" fill="#17181a"/>
-                <circle cx="200" cy="203" r="152" fill="none" stroke="#2e3136" stroke-width="7" stroke-dasharray="4 5"/>
+                <circle cx="200" cy="213" r="150" fill="#3a4046"/>
+                <circle cx="200" cy="207" r="150" fill="#59616a"/>
+                <circle cx="200" cy="203" r="152" fill="none" stroke="#7d858f" stroke-width="7" stroke-dasharray="4 5"/>
                 <!-- face -->
                 <circle cx="200" cy="200" r="150" fill="url(#coinFace)" stroke="url(#coinRim)" stroke-width="5"/>
-                <circle cx="200" cy="200" r="133" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2"/>
+                <circle cx="200" cy="200" r="133" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="2"/>
                 <circle cx="200" cy="200" r="127" fill="none" stroke="rgba(0,0,0,.5)" stroke-width="2"/>
-                <circle cx="200" cy="199" r="103" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
+                <circle cx="200" cy="199" r="103" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="1.5"/>
                 <circle cx="200" cy="201" r="103" fill="none" stroke="rgba(0,0,0,.4)" stroke-width="1.5"/>
-                <text font-family="'Bebas Neue', sans-serif" font-size="21" font-weight="600" letter-spacing="7" fill="#a7aeb6">
+                <text font-family="'Bebas Neue', sans-serif" font-size="21" font-weight="600" letter-spacing="7" fill="#33393f">
                   <textPath href="#arcTop" startOffset="50%" text-anchor="middle">TALVIO</textPath>
                 </text>
-                <text x="200" y="334" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="600" letter-spacing="2.5" fill="#a7aeb6">SERIES 01</text>
+                <text x="200" y="334" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="600" letter-spacing="2.5" fill="#33393f">SERIES 01</text>
                 <!-- embossed T monogram -->
-                <use href="#tmarkHero" transform="translate(203 202) scale(2.6) translate(-24 -24)" fill="rgba(0,0,0,.55)"/>
-                <use href="#tmarkHero" transform="translate(197 190) scale(2.6) translate(-24 -24)" fill="rgba(255,255,255,.5)"/>
-                <use href="#tmarkHero" transform="translate(200 196) scale(2.6) translate(-24 -24)" fill="#d6d9dd"/>
+                <use href="#tmarkHero" transform="translate(203 202) scale(2.6) translate(-24 -24)" fill="rgba(0,0,0,.35)"/>
+                <use href="#tmarkHero" transform="translate(197 190) scale(2.6) translate(-24 -24)" fill="rgba(255,255,255,.75)"/>
+                <use href="#tmarkHero" transform="translate(200 196) scale(2.6) translate(-24 -24)" fill="#2e3339"/>
                 <!-- mint mark + denomination -->
-                <path d="M200 250 l5 5 -5 5 -5 -5 Z" fill="#a7aeb6"/>
-                <text x="200" y="282" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10.5" font-weight="600" letter-spacing="3" fill="#a7aeb6">MINT · TV-01</text>
-                <text x="200" y="312" text-anchor="middle" font-family="'Bebas Neue', sans-serif" font-weight="600" font-size="27" letter-spacing="2" fill="#a7aeb6">100M $TALV</text>
-                <path d="M86 200 l4.5 4.5 -4.5 4.5 -4.5 -4.5 Z" fill="#a7aeb6"/>
-                <path d="M314 200 l4.5 4.5 -4.5 4.5 -4.5 -4.5 Z" fill="#a7aeb6"/>
+                <path d="M200 250 l5 5 -5 5 -5 -5 Z" fill="#33393f"/>
+                <text x="200" y="282" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10.5" font-weight="600" letter-spacing="3" fill="#33393f">MINT · TV-01</text>
+                <text x="200" y="312" text-anchor="middle" font-family="'Bebas Neue', sans-serif" font-weight="600" font-size="27" letter-spacing="2" fill="#33393f">100M $TALV</text>
+                <path d="M86 200 l4.5 4.5 -4.5 4.5 -4.5 -4.5 Z" fill="#33393f"/>
+                <path d="M314 200 l4.5 4.5 -4.5 4.5 -4.5 -4.5 Z" fill="#33393f"/>
                 <!-- holographic light sweep -->
                 <g clip-path="url(#coinClip)">
                   <rect class="coin-sweep" x="-160" y="-60" width="85" height="520" fill="url(#sweepGrad)"/>
@@ -765,6 +767,12 @@
                     <radialGradient id="blankGold" cx="0.38" cy="0.32" r="0.95">
                       <stop offset="0" stop-color="#3f434a"/><stop offset=".5" stop-color="#1d1f22"/><stop offset="1" stop-color="#101112"/>
                     </radialGradient>
+                    <radialGradient id="coinSteel" cx="0.38" cy="0.3" r="0.95">
+                      <stop offset="0" stop-color="#eef1f4"/><stop offset=".45" stop-color="#c2c9d1"/><stop offset=".8" stop-color="#8f99a3"/><stop offset="1" stop-color="#67707a"/>
+                    </radialGradient>
+                    <linearGradient id="coinSteelRim" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0" stop-color="#f7f9fb"/><stop offset=".5" stop-color="#a7b0ba"/><stop offset="1" stop-color="#d6dce2"/>
+                    </linearGradient>
                     <linearGradient id="belt" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="0" stop-color="#1e2023"/><stop offset="1" stop-color="#0b0b0c"/>
                     </linearGradient>
@@ -822,9 +830,12 @@
                   <rect x="94" y="198" width="142" height="17" rx="4" fill="url(#dieSteel)" stroke="#c9c9c9" stroke-width="1.5"/>
                   <!-- coin being struck -->
                   <g id="struck-coin">
-                    <circle cx="165" cy="232" r="16.5" fill="url(#blankGold)" stroke="#3a3f46" stroke-width="1.5"/>
-                    <circle cx="165" cy="232" r="12" fill="none" stroke="rgba(0,0,0,.45)" stroke-width="1.2"/>
-                    <use href="#tmark" transform="translate(165 232) scale(0.46) translate(-24 -24)" fill="#d6d9dd"/>
+                    <circle cx="165" cy="232" r="16.5" fill="url(#coinSteel)" stroke="#191d22" stroke-width="1"/>
+                    <circle cx="165" cy="232" r="15.4" fill="none" stroke="#eef1f4" stroke-width="2" stroke-dasharray="1.7 1.5" opacity=".85"/>
+                    <circle cx="165" cy="232" r="12.6" fill="none" stroke="rgba(20,24,29,.5)" stroke-width="1"/>
+                    <use href="#tmark" transform="translate(165.6 229.6) scale(0.4) translate(-24 -24)" fill="rgba(255,255,255,.7)"/>
+                    <use href="#tmark" transform="translate(165 229) scale(0.4) translate(-24 -24)" fill="#2b3036"/>
+                    <text x="165" y="243.5" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="5" font-weight="700" letter-spacing=".4" fill="#2b3036">100M $TALV</text>
                   </g>
                   <rect x="94" y="250" width="142" height="13" rx="4" fill="url(#dieSteel)" stroke="#3a3f46" stroke-width="1.5"/>
 
@@ -835,9 +846,13 @@
 
                   <!-- coin dropping from the press -->
                   <g id="drop-coin">
-                    <circle cx="165" cy="291" r="13.5" fill="url(#blankGold)" stroke="#3a3f46" stroke-width="1.5"/>
-                    <circle cx="165" cy="291" r="9.5" fill="none" stroke="rgba(0,0,0,.45)" stroke-width="1.1"/>
-                    <use href="#tmark" transform="translate(165 291) scale(0.38) translate(-24 -24)" fill="#d6d9dd"/>
+                    <circle cx="165" cy="291" r="13.5" fill="url(#coinSteel)" stroke="#191d22" stroke-width="1"/>
+                    <circle cx="165" cy="291" r="12.5" fill="none" stroke="#eef1f4" stroke-width="1.8" stroke-dasharray="1.6 1.4" opacity=".85"/>
+                    <circle cx="165" cy="291" r="10.2" fill="none" stroke="rgba(20,24,29,.45)" stroke-width=".9"/>
+                    <use href="#tmark" transform="translate(165.5 286.9) scale(0.26) translate(-24 -24)" fill="rgba(255,255,255,.7)"/>
+                    <use href="#tmark" transform="translate(165 286.4) scale(0.26) translate(-24 -24)" fill="#2b3036"/>
+                    <text x="165" y="297.8" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="4.8" font-weight="700" fill="#2b3036">100M</text>
+                    <text x="165" y="301.8" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="3.6" font-weight="700" letter-spacing=".5" fill="#2b3036">$TALV</text>
                     <g clip-path="url(#dropClip)">
                       <g transform="rotate(20 165 291)"><rect class="drop-shine" x="141" y="272" width="11" height="38" fill="url(#sweepGrad2)"/></g>
                     </g>
@@ -1202,15 +1217,28 @@ Stop and ask me before printing more.</pre>
         var struck = 0;
         var strikeTimer = null;
 
+        function trayCoin(cx, cy, flip) {
+          var rot = flip ? 6 : -6;
+          return '<ellipse cx="' + cx + '" cy="' + (cy + 12) + '" rx="11" ry="2.6" fill="rgba(0,0,0,.5)"/>' +
+            '<g transform="rotate(' + rot + ' ' + cx + ' ' + cy + ')">' +
+            '<circle cx="' + cx + '" cy="' + cy + '" r="13" fill="url(#coinSteel)" stroke="#191d22" stroke-width="1"/>' +
+            '<circle cx="' + cx + '" cy="' + cy + '" r="12.1" fill="none" stroke="#eef1f4" stroke-width="1.8" stroke-dasharray="1.6 1.4" opacity=".85"/>' +
+            '<circle cx="' + cx + '" cy="' + cy + '" r="10" fill="none" stroke="rgba(20,24,29,.45)" stroke-width=".9"/>' +
+            '<use href="#tmark" transform="translate(' + (cx + 0.5) + ' ' + (cy - 4.1) + ') scale(0.27) translate(-24 -24)" fill="rgba(255,255,255,.7)"/>' +
+            '<use href="#tmark" transform="translate(' + cx + ' ' + (cy - 4.6) + ') scale(0.27) translate(-24 -24)" fill="#2b3036"/>' +
+            '<text x="' + cx + '" y="' + (cy + 5.6) + '" text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-size="5" font-weight="700" fill="#2b3036">100M</text>' +
+            '<text x="' + cx + '" y="' + (cy + 9.6) + '" text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-size="3.8" font-weight="700" letter-spacing=".5" fill="#2b3036">$TALV</text>' +
+            "</g>";
+        }
+
         function renderTray(n) {
-          var xs = [105, 135, 165, 195, 225];
+          var xs = [98, 130, 162, 194, 226];
           var out = "";
           for (var i = 0; i < n; i++) {
             var row = i < 5 ? 0 : 1;
-            var cx = xs[i % 5] + (row ? 7 : 0);
-            var cy = row ? 274 : 291;
-            out += '<circle cx="' + cx + '" cy="' + cy + '" r="10" fill="url(#blankGold)" stroke="#3a3f46" stroke-width="1.2"/>' +
-                   '<circle cx="' + cx + '" cy="' + cy + '" r="6.4" fill="none" stroke="rgba(0,0,0,.55)" stroke-width="1"/>';
+            var cx = xs[i % 5] + (row ? 8 : 0);
+            var cy = row ? 273 : 292;
+            out += trayCoin(cx, cy, i % 2 === 1);
           }
           trayCoins.innerHTML = out;
           coinCountEl.textContent = n;
@@ -1557,11 +1585,11 @@ Stop and ask me before printing more.</pre>
 
         /* ----- coin specimen: one plate per tier ----- */
         var SPEC_COLORS = [
-          ["#454a51", "#1d1f22", "#0c0c0d"],
-          ["#3d4148", "#1a1c1f", "#0b0b0c"],
-          ["#363a40", "#17181b", "#0a0a0b"],
-          ["#2f3339", "#141518", "#090909"],
-          ["#282b30", "#111214", "#080808"]
+          ["#eef1f4", "#c3c9d1", "#79828c"],
+          ["#e7ebef", "#b8bfc8", "#6f7883"],
+          ["#dfe4ea", "#abb3bd", "#646d77"],
+          ["#d6dce2", "#9da6b1", "#59636d"],
+          ["#ccd3db", "#8f99a4", "#4f5862"]
         ];
         var specBtns = document.getElementById("spec-btns");
         var specCoin = document.getElementById("spec-coin");
@@ -1586,22 +1614,22 @@ Stop and ask me before printing more.</pre>
             '<stop offset="0.5" stop-color="' + c[1] + '"/>' +
             '<stop offset="1" stop-color="' + c[2] + '"/></linearGradient>' +
             '<path id="spArc" d="M 62 150 A 88 88 0 0 1 238 150" fill="none"/></defs>' +
-            '<circle cx="150" cy="158" r="112" fill="#0e0e0f"/>' +
-            '<circle cx="150" cy="153" r="112" fill="#17181a"/>' +
-            '<circle cx="150" cy="151" r="113" fill="none" stroke="#2e3136" stroke-width="5" stroke-dasharray="3.5 4.5"/>' +
+            '<circle cx="150" cy="158" r="112" fill="#3a4046"/>' +
+            '<circle cx="150" cy="153" r="112" fill="#59616a"/>' +
+            '<circle cx="150" cy="151" r="113" fill="none" stroke="#7d858f" stroke-width="5" stroke-dasharray="3.5 4.5"/>' +
             '<circle cx="150" cy="150" r="112" fill="url(#spFace)" stroke="url(#spRim)" stroke-width="4"/>' +
-            '<circle cx="150" cy="150" r="99" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.6"/>' +
+            '<circle cx="150" cy="150" r="99" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.6"/>' +
             '<circle cx="150" cy="150" r="94" fill="none" stroke="rgba(0,0,0,.45)" stroke-width="1.6"/>' +
-            '<circle cx="150" cy="149" r="76" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="1.2"/>' +
+            '<circle cx="150" cy="149" r="76" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="1.2"/>' +
             '<circle cx="150" cy="151" r="76" fill="none" stroke="rgba(0,0,0,.35)" stroke-width="1.2"/>' +
-            '<text font-family="\'Bebas Neue\', sans-serif" font-size="16" letter-spacing="6" fill="#a7aeb6">' +
+            '<text font-family="\'Bebas Neue\', sans-serif" font-size="16" letter-spacing="6" fill="#33393f">' +
             '<textPath href="#spArc" startOffset="50%" text-anchor="middle">TALVIO</textPath></text>' +
             '<path fill-rule="evenodd" fill="rgba(0,0,0,.5)" transform="translate(152 148) scale(1.9) translate(-24 -24)" d="M4 6 H44 V15 H29 V33 H35 V42 H13 V33 H19 V15 H4 Z M24 7.8 L26.8 10.5 L24 13.2 L21.2 10.5 Z"/>' +
-            '<path fill-rule="evenodd" fill="rgba(255,255,255,.45)" transform="translate(148 141) scale(1.9) translate(-24 -24)" d="M4 6 H44 V15 H29 V33 H35 V42 H13 V33 H19 V15 H4 Z M24 7.8 L26.8 10.5 L24 13.2 L21.2 10.5 Z"/>' +
-            '<path fill-rule="evenodd" fill="#d6d9dd" transform="translate(150 144) scale(1.9) translate(-24 -24)" d="M4 6 H44 V15 H29 V33 H35 V42 H13 V33 H19 V15 H4 Z M24 7.8 L26.8 10.5 L24 13.2 L21.2 10.5 Z"/>' +
-            '<path d="M150 192 l4 4 -4 4 -4 -4 Z" fill="#a7aeb6"/>' +
-            '<text x="150" y="216" text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-size="8.5" font-weight="600" letter-spacing="2.5" fill="#a7aeb6">MINT · TV-01</text>' +
-            '<text x="150" y="242" text-anchor="middle" font-family="\'Bebas Neue\', sans-serif" font-size="21" letter-spacing="2" fill="#a7aeb6">' + st.paid + 'M $TALV</text>' +
+            '<path fill-rule="evenodd" fill="rgba(255,255,255,.75)" transform="translate(148 141) scale(1.9) translate(-24 -24)" d="M4 6 H44 V15 H29 V33 H35 V42 H13 V33 H19 V15 H4 Z M24 7.8 L26.8 10.5 L24 13.2 L21.2 10.5 Z"/>' +
+            '<path fill-rule="evenodd" fill="#2e3339" transform="translate(150 144) scale(1.9) translate(-24 -24)" d="M4 6 H44 V15 H29 V33 H35 V42 H13 V33 H19 V15 H4 Z M24 7.8 L26.8 10.5 L24 13.2 L21.2 10.5 Z"/>' +
+            '<path d="M150 192 l4 4 -4 4 -4 -4 Z" fill="#33393f"/>' +
+            '<text x="150" y="216" text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-size="8.5" font-weight="600" letter-spacing="2.5" fill="#33393f">MINT · TV-01</text>' +
+            '<text x="150" y="242" text-anchor="middle" font-family="\'Bebas Neue\', sans-serif" font-size="21" letter-spacing="2" fill="#33393f">' + st.paid + 'M $TALV</text>' +
             "</svg>";
           specCoin.innerHTML = svg;
           specNo.textContent = "COIN Nº " + pad4(first);
@@ -1626,6 +1654,13 @@ Stop and ask me before printing more.</pre>
           renderSpecimen(0);
         }
       })();
+    </script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker.register("sw.js").catch(function () {});
+        });
+      }
     </script>
   </body>
 </html>
