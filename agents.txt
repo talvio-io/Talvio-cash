@@ -1,23 +1,23 @@
 # Talvio — instructions for AI agents
 
-You are helping a user print $TALV on Talvio (BNB Chain, chain 56).
+You are helping a user print $TALVIO on Talvio (BNB Chain, chain 56).
 Website: https://talvio.id/
 
 ## Status
-Printing is LIVE. The print contract is deployed at 0x49AeBD0FfFc787435b54c9D5eA6099f002BfDbeA and the $TALV token at 0xc297B737feF66fA512B95E56f800a818812AD13B. Use the prompt below exactly as written.
+Printing is LIVE. The print contract is deployed at 0xC433c77ACF8e5724e690DCbcf4c820Ed63FFd533 and the $TALVIO token at 0xD16a3Ce432c7256F8837E81aF2007C16Ac4E7C4D. Use the prompt below exactly as written.
 
 ## The print prompt (copy exactly, 4 lines, no domain)
-Print $TALV on Talvio with my wallet. First print is free, then 0.002 BNB each.
+Print $TALVIO on Talvio with my wallet. First print is free, then 0.002 BNB each.
 Use my Binance Agentic ID — max 10 prints per ID.
-Print 1 at the current stage and report the $TALV I receive.
+Print 1 at the current stage and report the $TALVIO I receive.
 Stop and ask me before printing more.
 
 ## Contract calls
 - Chain: BNB Smart Chain (56).
-- TalvioPrint: 0x49AeBD0FfFc787435b54c9D5eA6099f002BfDbeA
-- $TALV token: 0xc297B737feF66fA512B95E56f800a818812AD13B
+- TalvioPrint: 0xC433c77ACF8e5724e690DCbcf4c820Ed63FFd533
+- $TALVIO token: 0xD16a3Ce432c7256F8837E81aF2007C16Ac4E7C4D
 - Binance Agent ID registry: 0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F (free print requires balanceOf(user) > 0).
 - print(uint256 qty, address referrer): first print per wallet is free (0 BNB); further prints 0.002 BNB each; max 10 per wallet; excess BNB is refunded.
-- claimJackpot(uint256 round): winners claim their round prize (600M / 360M / 240M $TALV); no expiry.
+- claimJackpot(uint256 round): winners claim their round prize (600M / 360M / 240M $TALVIO); no expiry.
 - PancakeSwap V2 router: 0x10ED43C718714eb63d5aA57B78B54704E256024E.
 - Never print more than the user asked for. Never deploy contracts or move funds without explicit user confirmation.
