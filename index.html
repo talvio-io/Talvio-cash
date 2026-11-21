@@ -483,7 +483,32 @@
       .contract-card { background: rgba(10,10,10,.72); border: 1px solid var(--line-soft); border-radius: var(--radius); padding: 16px 18px; position: relative; }
       .contract-card .label { font-family: var(--mono); font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold-bright); font-weight: 700; }
       .contract-card .label::before { content: "◆  "; font-size: 8px; }
-      .contract-card .addr { font-family: var(--mono); font-size: 14px; color: var(--muted); margin-top: 4px; }
+      .contract-card .addr { font-family: var(--mono); font-size: 14px; color: var(--muted); margin-top: 4px; word-break: break-all; }
+      .contract-card .addr a { color: var(--muted); text-decoration: none; }
+      .contract-card .addr a:hover { color: var(--paper); text-decoration: underline; text-underline-offset: 3px; }
+
+      /* ---------- jackpot ---------- */
+      #btn-print { background: var(--aurora); border-color: #10151a; color: #0b0e11; }
+      .jp-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
+      .jp-stat { background: rgba(10,10,10,.72); border: 1px solid var(--line-soft); border-radius: var(--radius); padding: 16px 18px; position: relative; }
+      .jp-stat::before { content: ""; position: absolute; top: -1px; left: -1px; width: 10px; height: 10px; border-top: 2px solid var(--gold-bright); border-left: 2px solid var(--gold-bright); opacity: .7; }
+      .jp-stat .l { font-family: var(--mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--faint); font-weight: 700; }
+      .jp-stat .n { font-family: var(--mono); font-size: 24px; font-weight: 700; color: var(--paper); margin-top: 4px; }
+      .jp-top { margin-top: 14px; border: 1px solid var(--line-soft); border-radius: var(--radius); overflow: hidden; }
+      .jp-row { display: grid; grid-template-columns: .45fr 2fr .8fr .95fr; gap: 10px; align-items: center; padding: 13px 18px; background: rgba(10,10,10,.72); border-top: 1px solid var(--line-soft); font-size: 14.5px; }
+      .jp-row:first-child { border-top: none; }
+      .jp-row .rank { font-family: var(--display); font-size: 20px; letter-spacing: .06em; color: var(--paper); }
+      .jp-row .addr { font-family: var(--mono); font-size: 13px; color: var(--muted); word-break: break-all; }
+      .jp-row .cnt { font-family: var(--mono); color: var(--text); }
+      .jp-row .prize { font-family: var(--mono); color: var(--gold-bright); text-align: right; font-weight: 600; }
+      .jp-claim { margin-top: 14px; display: flex; gap: 10px; align-items: stretch; flex-wrap: wrap; background: rgba(10,10,10,.72); border: 1px solid var(--line-soft); border-radius: var(--radius); padding: 16px 18px; }
+      .jp-claim label { align-self: center; font-family: var(--mono); font-size: 13px; color: var(--muted); font-weight: 600; }
+      .jp-claim input { width: 110px; min-height: 48px; padding: 0 14px; border-radius: 6px; background: var(--ink-2); border: 1px solid var(--line); color: var(--paper); font-family: var(--mono); font-size: 17px; font-weight: 700; }
+      @media (max-width: 700px) {
+        .jp-stats { grid-template-columns: 1fr; }
+        .jp-row { grid-template-columns: .45fr 1.6fr .7fr; }
+        .jp-row .prize { grid-column: 2 / -1; text-align: left; }
+      }
       .foot-line { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; color: var(--faint); font-size: 13px; }
       .foot-brand { display: flex; align-items: center; gap: 10px; color: var(--muted); font-weight: 600; }
       .foot-brand .emblem { width: 24px; height: 24px; }
@@ -636,7 +661,7 @@
         <div class="brand-mark"><span class="emblem" aria-hidden="true"><svg viewBox="0 0 48 48"><defs><radialGradient id="markFace" cx="0.38" cy="0.3" r="0.95"><stop offset="0" stop-color="#f4f6f8"/><stop offset=".55" stop-color="#ccd3da"/><stop offset="1" stop-color="#8d97a1"/></radialGradient><linearGradient id="markRim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f7f9fb"/><stop offset=".5" stop-color="#a7b0ba"/><stop offset="1" stop-color="#d6dce2"/></linearGradient></defs><circle cx="24" cy="24" r="23" fill="url(#markRim)"/><circle cx="24" cy="24" r="21.4" fill="none" stroke="#79828c" stroke-width="3.2" stroke-dasharray="2.4 2.1"/><circle cx="24" cy="24" r="18.8" fill="url(#markFace)" stroke="rgba(20,24,29,.4)" stroke-width=".8"/><path fill-rule="evenodd" transform="translate(24.5 25.4) scale(0.6) translate(-24 -24)" fill="rgba(255,255,255,.8)" d="M4 6 H44 V15 H29 V33 H35 V42 H13 V33 H19 V15 H4 Z M24 7.8 L26.8 10.5 L24 13.2 L21.2 10.5 Z"/><path fill-rule="evenodd" transform="translate(24 24.6) scale(0.6) translate(-24 -24)" fill="#2b3036" d="M4 6 H44 V15 H29 V33 H35 V42 H13 V33 H19 V15 H4 Z M24 7.8 L26.8 10.5 L24 13.2 L21.2 10.5 Z"/></svg></span><span class="brand-word">TALVIO</span><span class="brand-tag">MINT · TV-01</span></div>
         <div class="top-actions">
           <a class="x-link" href="https://x.com/Talviochain" target="_blank" rel="noopener noreferrer">X — @Talviochain</a>
-          <div class="status-chip"><span class="status-dot"></span> Launching soon — the press opens at launch</div>
+          <div class="status-chip"><span class="status-dot"></span> Printing is live — the press is open</div>
         </div>
       </div>
 
@@ -647,12 +672,12 @@
           <span class="free-badge">First print free</span>
           <h1>Talvio</h1>
           <p class="sub">The first print is <em>free</em> for every Binance Agentic ID.</p>
-          <p class="small">Each print will strike one coin and will pay $TALV to your wallet. Earlier tiers pay more.</p>
+          <p class="small">Each print strikes one coin and pays $TALV straight to your wallet. Earlier tiers pay more.</p>
           <a class="btn-enter" href="#print-room">Enter the print room</a>
           <div class="hero-counters">
-            <div class="hcount"><div class="n">— <span class="gold">/ 10,000</span></div><div class="l">Prints minted</div></div>
-            <div class="hcount"><div class="n">Stage I</div><div class="l">Current stage</div></div>
-            <div class="hcount"><div class="n">100M <span class="gold">$TALV</span></div><div class="l">Next coin pays</div></div>
+            <div class="hcount"><div class="n"><span id="hero-total">…</span> <span class="gold">/ 10,000</span></div><div class="l">Prints minted</div></div>
+            <div class="hcount"><div class="n" id="hero-stage">Stage I</div><div class="l">Current stage</div></div>
+            <div class="hcount"><div class="n"><span id="hero-next">100M</span> <span class="gold">$TALV</span></div><div class="l">Next coin pays</div></div>
           </div>
         </div>
         <div>
@@ -723,19 +748,19 @@
         </div>
       </div>
 
-      <!-- FIG. 1 · print field — schedule preview -->
+      <!-- FIG. 1 · print field — live from the contract -->
       <figure class="field-plate" style="margin:0;">
         <div class="field-head">
           <span class="fig-label">FIG. 1 · PRINT FIELD</span>
-          <span class="field-note">SCHEDULE PREVIEW — CONTRACT NOT LIVE YET</span>
+          <span class="field-note">LIVE — READ FROM THE CONTRACT</span>
         </div>
         <div class="field-counters">
-          <div class="fcount"><div class="n">—</div><div class="l">Prints today</div></div>
-          <div class="fcount"><div class="n">—</div><div class="l">Printers today</div></div>
+          <div class="fcount"><div class="n" id="field-total">…</div><div class="l">Total prints</div></div>
+          <div class="fcount"><div class="n" id="field-remain">…</div><div class="l">Prints remaining</div></div>
           <div class="fcount"><div class="n gold">#10,000</div><div class="l">Pool opens at print</div></div>
         </div>
         <canvas id="print-field" role="img" aria-label="A spiral field of 10,000 dots, one per first-issue print, shaded by tier"></canvas>
-        <figcaption class="field-cap">All 10,000 first-issue prints drawn in print order — one dot each, shade by tier. The field fills with real prints once the contract is deployed; until then this is the schedule, not live activity.</figcaption>
+        <figcaption class="field-cap">All 10,000 first-issue prints drawn in print order — one dot each, shade by tier. Bright dots are prints already struck on-chain; the field fills as real prints land.</figcaption>
         <div class="field-legend" id="field-legend"></div>
       </figure>
 
@@ -891,7 +916,7 @@
                 </svg>
               </div>
             </div>
-            <p class="press-hint">Drag the press to spin it · tap PRINT on the machine to strike a coin</p>
+            <p class="press-hint">Drag the press to spin it · tap PRINT on the machine to print for real</p>
           </div>
 
           <div class="panel-side">
@@ -916,12 +941,14 @@
               <p class="qty-note">Max 10 prints per Agentic ID</p>
               <div class="set-row total"><span class="k">Total payment</span><span class="v" id="ps-total">0 BNB · free</span></div>
 
-              <button class="btn-connect" id="btn-connect" type="button">Connect wallet — at launch</button>
+              <button class="btn-connect" id="btn-connect" type="button">Connect wallet</button>
+              <button class="btn-connect" id="btn-print" type="button" hidden>Print now</button>
               <button class="btn-ai" id="btn-ai" type="button" aria-expanded="false" aria-controls="ai-box">Print with AI</button>
-              <p class="launch-note" id="launch-note">Printing opens at launch — connect unlocks then.</p>
+              <p class="launch-note" id="launch-note">Printing is live on BNB Chain. Connect your wallet to print.</p>
+              <p class="launch-note" id="print-status" role="status"></p>
 
               <div class="ai-box" id="ai-box" hidden>
-                <pre id="agent-prompt">Once printing is live at launch, print $TALV on Talvio with my wallet. First print is free, then 0.002 BNB each.
+                <pre id="agent-prompt">Print $TALV on Talvio with my wallet. First print is free, then 0.002 BNB each.
 Use my Binance Agentic ID — max 10 prints per ID.
 Print 1 at the current stage and report the $TALV I receive.
 Stop and ask me before printing more.</pre>
@@ -937,12 +964,12 @@ Stop and ask me before printing more.</pre>
                 <p>Your struck coins land here — serial numbers, stages, and $TALV received.</p>
               </div>
               <div class="acct-grid">
-                <div class="acct-cell"><div class="l">Used</div><div class="n">0 / 10</div></div>
-                <div class="acct-cell"><div class="l">Prints</div><div class="n">0</div></div>
-                <div class="acct-cell"><div class="l">Paid</div><div class="n">0 BNB</div></div>
-                <div class="acct-cell"><div class="l">Tokens received</div><div class="n">0 $TALV</div></div>
+                <div class="acct-cell"><div class="l">Free print</div><div class="n" id="acct-free">—</div></div>
+                <div class="acct-cell"><div class="l">Prints this session</div><div class="n" id="acct-prints">0</div></div>
+                <div class="acct-cell"><div class="l">Paid this session</div><div class="n" id="acct-paid">0 BNB</div></div>
+                <div class="acct-cell"><div class="l">$TALV balance</div><div class="n" id="acct-tokens">—</div></div>
               </div>
-              <p class="acct-note">Your prints will appear here after launch.</p>
+              <p class="acct-note" id="acct-note">Wallet not connected — connect in the Print tab and your balance appears here.</p>
             </div>
           </div>
         </div>
@@ -951,12 +978,12 @@ Stop and ask me before printing more.</pre>
       <!-- 3 · progress bars -->
       <div class="bars">
         <div class="bar-card">
-          <div class="bar-meta"><span>Initial print progress</span><span class="mono">— / 10,000 prints</span></div>
+          <div class="bar-meta"><span>Initial print progress</span><span class="mono" id="bar-prints-meta">… / 10,000 prints</span></div>
           <div class="bar-track"><div class="bar-fill" id="fill-prints"></div></div>
           <div class="bar-sub">The pool opens on its own at print #10,000.</div>
         </div>
         <div class="bar-card">
-          <div class="bar-meta"><span>LP reserve progress</span><span class="mono">0 BNB saved</span></div>
+          <div class="bar-meta"><span>LP reserve progress</span><span class="mono" id="bar-lp-meta">… BNB held in contract</span></div>
           <div class="bar-track"><div class="bar-fill" id="fill-lp"></div></div>
           <div class="bar-sub">90% of every paid print waits here for the pool.</div>
         </div>
@@ -1020,7 +1047,7 @@ Stop and ask me before printing more.</pre>
             <button class="btn-check" id="btn-check" type="button">Check print</button>
           </div>
           <p class="checker-out" id="check-out">Enter any serial from 1 to 211,000. Serials 1–10,000 show their tier, face value and fee; past 10,000 the pool is open and prints run near the pool price.</p>
-          <p class="checker-note">PREVIEW CALCULATOR — IT COMPUTES THE PUBLISHED SCHEDULE. THE CONTRACT IS NOT LIVE YET, SO THE PRINT DOES NOT EXIST ON-CHAIN.</p>
+          <p class="checker-note">SCHEDULE CALCULATOR — IT COMPUTES THE TIER SCHEDULE SET IN THE CONTRACT. LIVE COUNTS ARE IN THE PRINT FIELD ABOVE.</p>
         </div>
       </section>
 
@@ -1049,7 +1076,7 @@ Stop and ask me before printing more.</pre>
         <figure class="field-plate explorer-plate" style="margin-top:24px;">
           <div class="field-head">
             <span class="fig-label">FIG. 2 · FIELD</span>
-            <span class="field-note">SCHEDULE MODEL — NOT LIVE MINTS</span>
+            <span class="field-note">TIER MAP — SHADE SHOWS EACH PRINT'S TIER</span>
           </div>
           <canvas id="aurora-field" role="img" aria-label="An explorable spiral field of the 10,000-print schedule"></canvas>
           <div class="explorer-readout" id="field-readout">Print Nº <strong>—</strong> · Tier <strong>—</strong> · Face <strong>— $TALV</strong></div>
@@ -1076,7 +1103,7 @@ Stop and ask me before printing more.</pre>
           <div class="ref-link-text" id="ref-link-text">Available after connecting</div>
         </div>
         <div class="ref-cta">
-          <p>Connect in the print room at launch — your personal link appears here, ready to share.</p>
+          <p>Connect in the print room — your personal link appears here. Friends who print through it count toward your free second print.</p>
         </div>
         <div class="reward-cards">
           <div class="reward-card">
@@ -1102,7 +1129,7 @@ Stop and ask me before printing more.</pre>
         <div class="sec-head">
           <div class="sec-tag"><span class="diamond">◆</span> § 06 · Pool — Mint · TV-01</div>
           <h2>Pool &amp; rules</h2>
-          <p>Will be set in the contract at deploy. Nothing changes after.</p>
+          <p>Set in the contract at deploy. Nothing changes after.</p>
         </div>
         <div class="rules">
           <div class="rule"><span class="tick">◆</span><p><strong>The first print is free</strong> for every Binance Agentic ID.</p></div>
@@ -1137,12 +1164,35 @@ Stop and ask me before printing more.</pre>
         </div>
       </section>
 
+      <!-- 8b · jackpot · § 07 -->
+      <section id="jackpot">
+        <div class="sec-head">
+          <div class="sec-tag"><span class="diamond">◆</span> § 07 · Jackpot — Mint · TV-01</div>
+          <h2>Jackpot rounds</h2>
+          <p>Every 1,000 prints close a round. The round&rsquo;s top 3 printers split a 1.2B $TALV pool — ties go to whoever reached the count first. Winners claim with no expiry.</p>
+        </div>
+        <div class="jp-stats">
+          <div class="jp-stat"><div class="l">Current round</div><div class="n" id="jp-round">…</div></div>
+          <div class="jp-stat"><div class="l">Pool per round</div><div class="n">1.2B <span style="font-size:15px; color:var(--muted);">$TALV</span></div></div>
+          <div class="jp-stat"><div class="l">Prints into this round</div><div class="n" id="jp-progress">…</div></div>
+        </div>
+        <div class="jp-top" id="jp-top" aria-label="Current round top printers">
+          <div class="jp-row"><span class="rank">1st</span><span class="addr">Reading the contract…</span><span class="cnt"></span><span class="prize">600M $TALV</span></div>
+        </div>
+        <div class="jp-claim">
+          <label for="jp-claim-round">Claim a finished round</label>
+          <input id="jp-claim-round" type="number" min="1" step="1" placeholder="1" inputmode="numeric" />
+          <button class="btn-check" id="btn-claim" type="button">Claim jackpot</button>
+        </div>
+        <p class="checker-out" id="jp-status" role="status">If you finished a round in the top 3, enter its round number and claim — the prize lands in the same wallet you printed with.</p>
+      </section>
+
       <!-- 9 · supply · § 06 -->
       <section id="tokenomics">
         <div class="sec-head">
           <div class="sec-tag"><span class="diamond">◆</span> Supply Ledger — Appendix · Mint · TV-01</div>
           <h2>$TALV supply</h2>
-          <p>One fixed supply, will be struck once at deploy. No more can ever be made.</p>
+          <p>One fixed supply, struck once at deploy. No more can ever be made.</p>
         </div>
         <div class="supply-line">
           <span class="big">10,000,000,000,000</span>
@@ -1170,11 +1220,11 @@ Stop and ask me before printing more.</pre>
         <div class="contracts">
           <div class="contract-card">
             <div class="label">$TALV Token</div>
-            <div class="addr">TBD — address and BscScan link publish here at deploy</div>
+            <div class="addr"><a href="https://bscscan.com/address/0xc297B737feF66fA512B95E56f800a818812AD13B" target="_blank" rel="noopener noreferrer">0xc297B737feF66fA512B95E56f800a818812AD13B</a></div>
           </div>
           <div class="contract-card">
             <div class="label">TalvioPrint</div>
-            <div class="addr">TBD — address and BscScan link publish here at deploy</div>
+            <div class="addr"><a href="https://bscscan.com/address/0x49AeBD0FfFc787435b54c9D5eA6099f002BfDbeA" target="_blank" rel="noopener noreferrer">0x49AeBD0FfFc787435b54c9D5eA6099f002BfDbeA</a></div>
           </div>
         </div>
         <div class="foot-line">
@@ -1182,7 +1232,7 @@ Stop and ask me before printing more.</pre>
           <a class="foot-x" href="https://x.com/Talviochain" target="_blank" rel="noopener noreferrer">X — @Talviochain</a>
           <span class="mono">SERIES 01 · 10,000 PRINTS</span>
         </div>
-        <p class="disclaimer">Talvio is a print-to-token mint on BNB Chain. Printing is not an investment and $TALV carries no guaranteed value — read the rules in § 06 before you print. Contract addresses appear above, with BscScan links, once deployed.</p>
+        <p class="disclaimer">Talvio is a print-to-token mint on BNB Chain. Printing is not an investment and $TALV carries no guaranteed value — read the rules in § 06 before you print. The contract addresses are above, with BscScan links — verify them there before you print.</p>
       </div>
     </footer>
 
@@ -1198,8 +1248,23 @@ Stop and ask me before printing more.</pre>
         ];
         var PRICE_BNB = 0.002;
         var MAX_QTY = 10;
-        var currentStage = 0; // Stage I until launch reads say otherwise
+        var currentStage = 0; // updated live from totalPrints()
         var qty = 1;
+
+        /* ----- live contract state ----- */
+        var TALV_ADDR = "0xc297B737feF66fA512B95E56f800a818812AD13B";
+        var PRINT_ADDR = "0x49AeBD0FfFc787435b54c9D5eA6099f002BfDbeA";
+        var SEL = { totalPrints: "0x6409bb89", jackpotRound: "0xfe071e02", top3: "0x6d1b00ae", balanceOf: "0x70a08231", print: "0x986c2568", claimJackpot: "0x26ec3eed" };
+        var RPCS = ["https://bsc-dataseed.binance.org/", "https://bsc-dataseed1.defibit.io/", "https://bsc.publicnode.com/"];
+        var liveTotal = null;      // totalPrints() once read
+        var userAddress = null;    // connected wallet
+        var hasFree = true;        // free print still available (probed on connect)
+        var sessionPrints = 0, sessionPaidBNB = 0;
+        var referrer = "0x0000000000000000000000000000000000000000";
+        try {
+          var refParam = new URLSearchParams(window.location.search).get("ref");
+          if (refParam && /^0x[0-9a-fA-F]{40}$/.test(refParam)) referrer = refParam;
+        } catch (e) {}
 
         function fmt(n) { return n.toLocaleString("en-US"); }
         function pad4(n) { var s = String(n); while (s.length < 4) s = "0" + s; return s; }
@@ -1286,8 +1351,10 @@ Stop and ask me before printing more.</pre>
         pressPrint.addEventListener("pointerdown", function (e) { e.stopPropagation(); });
         pressPrint.addEventListener("click", function (e) {
           e.stopPropagation();
+          if (userAddress) { doPrint(); return; }
           var target = struck < qty ? qty : Math.min(MAX_QTY, struck + 1);
           strike(target);
+          setNote(printStatus, "That was the press animation — connect your wallet above, then Print now strikes real coins.", true);
         });
 
         /* ----- tabs ----- */
@@ -1315,10 +1382,12 @@ Stop and ask me before printing more.</pre>
 
         function renderPrint() {
           var st = STAGES[currentStage];
-          var paidCount = qty - 1;
+          var paidCount = hasFree ? qty - 1 : qty;
           qtyDisplay.textContent = qty;
-          psBreakdown.textContent = paidCount === 0 ? "1 free" : "1 free + " + paidCount + " paid";
-          var receive = st.free * 1000000 + paidCount * st.paid * 1000000;
+          psBreakdown.textContent = hasFree
+            ? (paidCount === 0 ? "1 free" : "1 free + " + paidCount + " paid")
+            : qty + " paid";
+          var receive = (hasFree ? st.free * 1000000 : 0) + paidCount * st.paid * 1000000;
           psReceive.textContent = fmt(receive) + " $TALV";
           psTotal.textContent = paidCount === 0
             ? "0 BNB · free"
@@ -1326,16 +1395,293 @@ Stop and ask me before printing more.</pre>
           btnMinus.disabled = qty <= 1;
           btnPlus.disabled = qty >= MAX_QTY;
         }
+
+        var psSerial = document.getElementById("ps-serial");
+        var psStage = document.getElementById("ps-stage");
+        var psNote = document.getElementById("ps-note");
+        function updateLivePanel() {
+          if (liveTotal === null) return;
+          var nextSerial = liveTotal + 1;
+          var stIdx = stageOfSerial(Math.min(nextSerial, 10000));
+          currentStage = stIdx;
+          psSerial.textContent = "#" + pad4(nextSerial);
+          psStage.textContent = "Stage " + ROMAN[stIdx];
+          psNote.textContent = STAGES[stIdx].paid + "M $TALV";
+          renderPrint();
+        }
         btnMinus.addEventListener("click", function () { if (qty > 1) { qty--; renderPrint(); strike(qty); } });
         btnPlus.addEventListener("click", function () { if (qty < MAX_QTY) { qty++; renderPrint(); strike(qty); } });
         renderPrint();
 
-        /* ----- connect (pre-launch: honest note, no fake success) ----- */
+        /* ----- live wiring: read-only RPC + wallet print / claim ----- */
         var launchNote = document.getElementById("launch-note");
-        document.getElementById("btn-connect").addEventListener("click", function () {
-          launchNote.textContent = "The mint opens at launch. This button connects your wallet then.";
-          launchNote.classList.add("warn");
+        var printStatus = document.getElementById("print-status");
+        var btnConnect = document.getElementById("btn-connect");
+        var btnPrint = document.getElementById("btn-print");
+        var jpStatus = document.getElementById("jp-status");
+
+        function setNote(el, text, warn) {
+          if (!el) return;
+          el.textContent = text;
+          el.classList.toggle("warn", !!warn);
+        }
+        function shortAddr(a) { return a.slice(0, 6) + "…" + a.slice(-4); }
+        function wordBig(n) { var s = n.toString(16); while (s.length < 64) s = "0" + s; return s; }
+        function addrWord(a) { return "000000000000000000000000" + a.slice(2).toLowerCase(); }
+        function rpcFetch(method, params) {
+          var chain = Promise.reject(new Error("no rpc"));
+          RPCS.forEach(function (url) {
+            chain = chain.catch(function () {
+              return fetch(url, {
+                method: "POST",
+                headers: { "content-type": "application/json" },
+                body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: method, params: params })
+              }).then(function (r) { return r.json(); }).then(function (j) {
+                if (j.error) throw new Error(j.error.message || "rpc error");
+                return j.result;
+              });
+            });
+          });
+          return chain;
+        }
+        function readCall(to, data) { return rpcFetch("eth_call", [{ to: to, data: data }, "latest"]); }
+        function decodeUint(hex) { return hex && hex !== "0x" ? BigInt(hex) : 0n; }
+        function fmtTalv(wei) {
+          var whole = wei / 1000000000000000000n;
+          return fmt(Number(whole));
+        }
+
+        function refreshLive() {
+          readCall(PRINT_ADDR, SEL.totalPrints).then(function (hex) {
+            liveTotal = Number(decodeUint(hex));
+            var stIdx = stageOfSerial(Math.min(liveTotal + 1, 10000));
+            var heroTotal = document.getElementById("hero-total");
+            if (heroTotal) heroTotal.textContent = fmt(liveTotal);
+            var heroStage = document.getElementById("hero-stage");
+            if (heroStage) heroStage.textContent = "Stage " + ROMAN[stIdx];
+            var heroNext = document.getElementById("hero-next");
+            if (heroNext) heroNext.textContent = STAGES[stIdx].paid + "M";
+            var fTotal = document.getElementById("field-total");
+            if (fTotal) fTotal.textContent = fmt(liveTotal);
+            var fRemain = document.getElementById("field-remain");
+            if (fRemain) fRemain.textContent = fmt(Math.max(0, 10000 - liveTotal));
+            var barMeta = document.getElementById("bar-prints-meta");
+            if (barMeta) barMeta.textContent = fmt(liveTotal) + " / 10,000 prints";
+            var fill = document.getElementById("fill-prints");
+            if (fill) fill.style.width = Math.min(100, liveTotal / 100) + "%";
+            var jpProg = document.getElementById("jp-progress");
+            if (jpProg) jpProg.textContent = fmt(liveTotal % 1000) + " / 1,000";
+            var claimInput = document.getElementById("jp-claim-round");
+            if (claimInput && !claimInput.value && liveTotal >= 1000) claimInput.value = Math.floor(liveTotal / 1000);
+            updateLivePanel();
+            drawPrintField(false);
+          }).catch(function () {});
+          readCall(PRINT_ADDR, SEL.jackpotRound).then(function (hex) {
+            var el = document.getElementById("jp-round");
+            if (el) el.textContent = "Round " + Number(decodeUint(hex));
+          }).catch(function () {});
+          readCall(PRINT_ADDR, SEL.top3).then(function (hex) {
+            var wrap = document.getElementById("jp-top");
+            if (!wrap || !hex || hex.length < 2 + 64 * 6) return;
+            var body = hex.slice(2);
+            var prizes = ["600M $TALV", "360M $TALV", "240M $TALV"];
+            var ranks = ["1st", "2nd", "3rd"];
+            var out = "";
+            for (var i = 0; i < 3; i++) {
+              var aWord = body.slice(i * 128, i * 128 + 64);
+              var cWord = body.slice(i * 128 + 64, i * 128 + 128);
+              var addr = "0x" + aWord.slice(24);
+              var count = Number(decodeUint("0x" + cWord));
+              if (count === 0 || /^0x0+$/.test(addr)) {
+                out += '<div class="jp-row"><span class="rank">' + ranks[i] + '</span><span class="addr">No printer yet</span><span class="cnt">—</span><span class="prize">' + prizes[i] + "</span></div>";
+              } else {
+                out += '<div class="jp-row"><span class="rank">' + ranks[i] + '</span><span class="addr">' + addr + '</span><span class="cnt">' + count + (count === 1 ? " print" : " prints") + '</span><span class="prize">' + prizes[i] + "</span></div>";
+              }
+            }
+            wrap.innerHTML = out;
+          }).catch(function () {});
+          rpcFetch("eth_getBalance", [PRINT_ADDR, "latest"]).then(function (hex) {
+            var bnb = Number(decodeUint(hex)) / 1e18;
+            var meta = document.getElementById("bar-lp-meta");
+            if (meta) meta.textContent = bnb.toFixed(4) + " BNB held in contract";
+            var fillLp = document.getElementById("fill-lp");
+            if (fillLp) fillLp.style.width = Math.min(100, (bnb / 16.2) * 100) + "%";
+          }).catch(function () {});
+          if (userAddress) refreshAccount();
+        }
+
+        function refreshAccount() {
+          if (!userAddress) return;
+          readCall(TALV_ADDR, SEL.balanceOf + addrWord(userAddress)).then(function (hex) {
+            var el = document.getElementById("acct-tokens");
+            if (el) el.textContent = fmtTalv(decodeUint(hex)) + " $TALV";
+          }).catch(function () {});
+          var ap = document.getElementById("acct-prints");
+          if (ap) ap.textContent = sessionPrints;
+          var apaid = document.getElementById("acct-paid");
+          if (apaid) apaid.textContent = sessionPaidBNB.toFixed(3) + " BNB";
+          var af = document.getElementById("acct-free");
+          if (af) af.textContent = hasFree ? "Available" : "Used";
+          var an = document.getElementById("acct-note");
+          if (an) an.textContent = "Wallet " + userAddress + " — balance read live from the $TALV contract.";
+        }
+
+        function walletCall(data, valueHex) {
+          return window.ethereum.request({
+            method: "eth_call",
+            params: [{ from: userAddress, to: PRINT_ADDR, data: data, value: valueHex || "0x0" }, "latest"]
+          });
+        }
+        function probeFree() {
+          var data = SEL.print + wordBig(1n) + addrWord(referrer === userAddress ? "0x0000000000000000000000000000000000000000" : referrer);
+          return walletCall(data, "0x0").then(function () { return true; }).catch(function () { return false; });
+        }
+
+        function ensureChain() {
+          return window.ethereum.request({ method: "eth_chainId" }).then(function (id) {
+            if (id === "0x38") return true;
+            return window.ethereum.request({
+              method: "wallet_switchEthereumChain",
+              params: [{ chainId: "0x38" }]
+            }).then(function () { return true; }).catch(function (err) {
+              if (err && err.code === 4902) {
+                return window.ethereum.request({
+                  method: "wallet_addEthereumChain",
+                  params: [{ chainId: "0x38", chainName: "BNB Smart Chain", nativeCurrency: { name: "BNB", symbol: "BNB", decimals: 18 }, rpcUrls: ["https://bsc-dataseed.binance.org/"], blockExplorerUrls: ["https://bscscan.com"] }]
+                }).then(function () { return true; });
+              }
+              throw err;
+            });
+          });
+        }
+
+        function connectWallet() {
+          if (!window.ethereum) {
+            setNote(launchNote, "No wallet found in this browser. Open this page inside your wallet app's browser (MetaMask, Trust Wallet, OKX or Binance Wallet), or install a wallet — then tap Connect again.", true);
+            return Promise.resolve(false);
+          }
+          return window.ethereum.request({ method: "eth_requestAccounts" }).then(function (accounts) {
+            if (!accounts || !accounts.length) throw new Error("No account returned by the wallet.");
+            userAddress = accounts[0];
+            return ensureChain();
+          }).then(function () {
+            btnConnect.textContent = shortAddr(userAddress) + " · BNB Chain";
+            btnPrint.hidden = false;
+            setNote(launchNote, "Wallet connected. Set a quantity and tap Print now — your first print is free.", false);
+            var refText = document.getElementById("ref-link-text");
+            if (refText) refText.textContent = "https://talvio.id/?ref=" + userAddress;
+            return probeFree();
+          }).then(function (free) {
+            hasFree = free;
+            if (!free) setNote(launchNote, "Wallet connected. No free print detected for this wallet — it may already be used, or the wallet holds no Binance Agentic ID. Paid prints are 0.002 BNB each.", true);
+            renderPrint();
+            refreshAccount();
+            return true;
+          }).catch(function (err) {
+            setNote(launchNote, "Connect failed: " + (err && err.message ? err.message : err), true);
+            return false;
+          });
+        }
+        btnConnect.addEventListener("click", function () { connectWallet(); });
+
+        function receiveFor(q, startSerial, freeFirst) {
+          var total = 0;
+          for (var i = 0; i < q; i++) {
+            var st = STAGES[stageOfSerial(Math.min(startSerial + i, 10000))];
+            total += (i === 0 && freeFirst) ? st.free * 1000000 : st.paid * 1000000;
+          }
+          return total;
+        }
+
+        function waitReceipt(hash) {
+          return new Promise(function (resolve, reject) {
+            var tries = 0;
+            (function poll() {
+              rpcFetch("eth_getTransactionReceipt", [hash]).then(function (rcpt) {
+                if (rcpt) { resolve(rcpt); return; }
+                if (++tries > 40) { reject(new Error("Timed out waiting for confirmation.")); return; }
+                setTimeout(poll, 3000);
+              }).catch(function () {
+                if (++tries > 40) { reject(new Error("Timed out waiting for confirmation.")); return; }
+                setTimeout(poll, 3000);
+              });
+            })();
+          });
+        }
+
+        function doPrint() {
+          if (!userAddress) {
+            connectWallet().then(function (ok) { if (ok) setNote(printStatus, "Wallet connected — tap Print now again to strike your coins.", true); });
+            return;
+          }
+          var q = qty;
+          var paidCount = hasFree ? q - 1 : q;
+          var valueBNB = paidCount * PRICE_BNB;
+          var valueWei = BigInt(Math.round(valueBNB * 1e6)) * 1000000000000n;
+          var ref = (referrer && referrer.toLowerCase() !== userAddress.toLowerCase()) ? referrer : "0x0000000000000000000000000000000000000000";
+          var data = SEL.print + wordBig(BigInt(q)) + addrWord(ref);
+          setNote(printStatus, "Confirm the print in your wallet…", false);
+          btnPrint.disabled = true;
+          window.ethereum.request({
+            method: "eth_sendTransaction",
+            params: [{ from: userAddress, to: PRINT_ADDR, data: data, value: "0x" + valueWei.toString(16) }]
+          }).then(function (hash) {
+            setNote(printStatus, "Print sent (" + shortAddr(hash) + ") — waiting for confirmation…", false);
+            return waitReceipt(hash);
+          }).then(function (rcpt) {
+            if (rcpt.status !== "0x1") throw new Error("The transaction failed on-chain.");
+            var received = receiveFor(q, (liveTotal || 0) + 1, hasFree);
+            sessionPrints += q;
+            sessionPaidBNB += valueBNB;
+            if (hasFree) hasFree = false;
+            strike(sessionPrints);
+            setNote(printStatus, "Printed " + q + (q === 1 ? " coin" : " coins") + " — " + fmt(received) + " $TALV is in your wallet. ", false);
+            renderPrint();
+            refreshAccount();
+            refreshLive();
+          }).catch(function (err) {
+            var msg = err && err.code === 4001 ? "Cancelled in your wallet — nothing was printed." : "Print failed: " + (err && err.message ? err.message : err);
+            setNote(printStatus, msg, true);
+          }).then(function () { btnPrint.disabled = false; });
+        }
+        btnPrint.addEventListener("click", doPrint);
+
+        var btnClaim = document.getElementById("btn-claim");
+        if (btnClaim) btnClaim.addEventListener("click", function () {
+          var roundVal = parseInt(document.getElementById("jp-claim-round").value, 10);
+          if (!roundVal || roundVal < 1) { setNote(jpStatus, "Enter the round number you won — for example 1.", true); return; }
+          if (!userAddress) {
+            connectWallet().then(function (ok) { if (ok) setNote(jpStatus, "Wallet connected — tap Claim jackpot again.", true); });
+            return;
+          }
+          var data = SEL.claimJackpot + wordBig(BigInt(roundVal));
+          setNote(jpStatus, "Confirm the claim in your wallet…", false);
+          btnClaim.disabled = true;
+          window.ethereum.request({
+            method: "eth_sendTransaction",
+            params: [{ from: userAddress, to: PRINT_ADDR, data: data, value: "0x0" }]
+          }).then(function (hash) {
+            setNote(jpStatus, "Claim sent (" + shortAddr(hash) + ") — waiting for confirmation…", false);
+            return waitReceipt(hash);
+          }).then(function (rcpt) {
+            if (rcpt.status !== "0x1") throw new Error("The claim failed on-chain — you may not be a top-3 winner of that round, or it was already claimed.");
+            setNote(jpStatus, "Jackpot for round " + roundVal + " claimed — the $TALV is in your wallet.", false);
+            refreshAccount();
+          }).catch(function (err) {
+            var msg = err && err.code === 4001 ? "Cancelled in your wallet — nothing was claimed." : "Claim failed: " + (err && err.message ? err.message : err);
+            setNote(jpStatus, msg, true);
+          }).then(function () { btnClaim.disabled = false; });
         });
+
+        if (window.ethereum && window.ethereum.on) {
+          window.ethereum.on("accountsChanged", function (accounts) {
+            userAddress = accounts && accounts.length ? accounts[0] : null;
+            if (!userAddress) { btnPrint.hidden = true; btnConnect.textContent = "Connect wallet"; }
+            else { btnConnect.textContent = shortAddr(userAddress) + " · BNB Chain"; probeFree().then(function (f) { hasFree = f; renderPrint(); refreshAccount(); }); }
+          });
+        }
+        refreshLive();
+        window.setInterval(refreshLive, 30000);
 
         /* ----- print with AI ----- */
         var btnAi = document.getElementById("btn-ai");
@@ -1479,11 +1825,14 @@ Stop and ask me before printing more.</pre>
           return { ctx: ctx, w: w, h: cssH };
         }
         function fieldHeight(w) { return w < 560 ? 300 : 380; }
-        function drawDot(ctx, p, rad) {
+        function drawDot(ctx, p, rad, color) {
           ctx.beginPath();
           ctx.arc(p.x, p.y, rad, 0, 6.2832);
-          ctx.fillStyle = TIER_COLORS[p.tier];
+          ctx.fillStyle = color || TIER_COLORS[p.tier];
           ctx.fill();
+        }
+        function fieldColor(i) {
+          return (liveTotal === null || i < liveTotal) ? null : "#262626";
         }
 
         /* FIG. 1 — hero print field: draws the schedule in print order */
@@ -1495,13 +1844,13 @@ Stop and ask me before printing more.</pre>
           pfPts = spiralPoints(s.w, s.h);
           var rad = Math.max(1.1, Math.min(s.w, s.h) / 260);
           if (!animate || reduceMotion) {
-            for (var i = 0; i < pfPts.length; i++) drawDot(s.ctx, pfPts[i], rad);
+            for (var i = 0; i < pfPts.length; i++) drawDot(s.ctx, pfPts[i], rad, fieldColor(i));
             return;
           }
           var idx = 0, CHUNK = 450;
           (function step() {
             var end = Math.min(TOTAL_PRINTS, idx + CHUNK);
-            for (; idx < end; idx++) drawDot(s.ctx, pfPts[idx], rad);
+            for (; idx < end; idx++) drawDot(s.ctx, pfPts[idx], rad, fieldColor(idx));
             if (idx < TOTAL_PRINTS) requestAnimationFrame(step);
           })();
         }
