@@ -1,0 +1,1631 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" href="data:," />
+    <title>Talvio — Print $TALV</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      button, [role="button"], select, summary, input:not([type="checkbox"], [type="radio"]) { min-height: 2.25rem; }
+
+      :root {
+        --ink: #050505;
+        --ink-2: #0a0a0a;
+        --panel: #0b0b0b;
+        --panel-2: #121212;
+        --line: #2b2b2b;
+        --line-soft: #1f1f1f;
+        --gold: #8a8a8a;
+        --gold-bright: #c9c9c9;
+        --gold-deep: #3d3d3d;
+        --paper: #e8e8e8;
+        --note: #e8e8e8;
+        --note-ink: #111111;
+        --text: #d6d6d6;
+        --muted: #9a9a9a;
+        --faint: #616161;
+        --green: #c9c9c9;
+        --accent: #7d8fa3;
+        --aurora: linear-gradient(180deg, #8ea2b5 0%, #71859b 100%);
+        --radius: 10px;
+        --display: "Bebas Neue", "Arial Narrow", sans-serif;
+        --body: "Plus Jakarta Sans", system-ui, sans-serif;
+        --mono: "JetBrains Mono", ui-monospace, monospace;
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background: var(--ink);
+        color: var(--text);
+        font-family: var(--body);
+        font-size: 16px;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+      /* ===== LAYERED MINT BACKGROUND =====
+         1) midnight base  2) guilloche engraving  3) anchored aurora glows  4) grain */
+      body::before {
+        content: "";
+        position: fixed; inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        background:
+          /* one dim cold light behind the hero coin — nothing more */
+          radial-gradient(560px 420px at 76% 6%, rgba(125,143,163,.06), transparent 62%),
+          /* guilloche kept as a barely-visible engraving around the coin */
+          repeating-radial-gradient(circle at 76% 7%, transparent 0 17px, rgba(255,255,255,.018) 17px 18px, transparent 18px 34px),
+          /* faint grid */
+          repeating-linear-gradient(0deg, transparent 0 119px, rgba(255,255,255,.016) 119px 120px),
+          repeating-linear-gradient(90deg, transparent 0 119px, rgba(255,255,255,.016) 119px 120px),
+          /* near-black base */
+          linear-gradient(180deg, #060606 0%, #050505 100%);
+      }
+      body::after {
+        content: "";
+        position: fixed; inset: 0;
+        pointer-events: none;
+        z-index: 60;
+        opacity: .05;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.9'/%3E%3C/svg%3E");
+        background-size: 160px 160px;
+        mix-blend-mode: overlay;
+      }
+      main, footer { position: relative; z-index: 1; }
+      .wrap { max-width: 1160px; margin: 0 auto; padding: 0 20px; }
+
+      h1, h2, h3 { font-family: var(--display); margin: 0; font-weight: 400; letter-spacing: .02em; text-transform: uppercase; }
+      .mono { font-family: var(--mono); }
+      a { color: var(--gold-bright); }
+      ::selection { background: #3d3d3d; color: #fff; }
+
+      /* ===== MINT MARK MOTIF ===== */
+      .emblem {
+        display: inline-grid; place-items: center;
+        width: 30px; height: 30px; flex-shrink: 0;
+        border: 1.5px solid var(--gold-bright); color: var(--paper);
+        font-family: var(--display); font-size: 19px; line-height: 1; padding-top: 2px;
+        transform: rotate(45deg);
+      }
+      .emblem > span { transform: rotate(-45deg); }
+      .diamond { color: var(--gold-bright); font-size: 10px; }
+      .sec-tag, .room-tag {
+        display: flex; align-items: center; gap: 10px;
+        font-family: var(--mono); font-size: 11px; font-weight: 600;
+        letter-spacing: .22em; text-transform: uppercase; color: var(--gold-bright);
+        margin-bottom: 14px;
+      }
+      .sec-tag::after, .room-tag::after {
+        content: ""; flex: 1; height: 1px;
+        background: linear-gradient(90deg, rgba(255,255,255,.45), rgba(255,255,255,.06));
+      }
+      .mint-divider {
+        display: flex; align-items: center; gap: 14px;
+        margin: 34px 0 0; color: var(--gold-bright);
+        font-family: var(--mono); font-size: 10.5px; letter-spacing: .24em; white-space: nowrap;
+      }
+      .mint-divider .line { flex: 1; height: 1px; background: var(--line-soft); }
+      .mint-divider .diamond { font-size: 9px; }
+
+      /* ---------- top row / brand ---------- */
+      .toprow { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 20px 0 0; flex-wrap: wrap; }
+      .brand-mark { display: flex; align-items: center; gap: 12px; }
+      .brand-word { font-family: var(--display); font-size: 26px; letter-spacing: .18em; color: var(--paper); line-height: 1; padding-top: 3px; }
+      .brand-tag { font-family: var(--mono); font-size: 10px; letter-spacing: .22em; color: var(--faint); border-left: 1px solid var(--line); padding-left: 12px; }
+      .status-chip {
+        display: inline-flex; align-items: center; gap: 8px;
+        border: 1px solid var(--line); border-radius: 999px;
+        padding: 7px 14px; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--muted);
+        background: rgba(10,10,10,.8);
+      }
+      .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px rgba(125,143,163,.16); flex-shrink: 0; }
+
+      /* ---------- hero ---------- */
+      .hero {
+        display: grid; grid-template-columns: 1fr 1.08fr; gap: 44px; align-items: center;
+        padding: 30px 0 36px;
+      }
+      .free-badge {
+        display: inline-flex; align-items: center; gap: 8px;
+        background: #e8e8e8;
+        color: #0a0a0a; font-family: var(--mono); font-weight: 700;
+        font-size: 11.5px; letter-spacing: .18em; text-transform: uppercase;
+        padding: 9px 14px; border-radius: 4px; border: 1px solid #e8e8e8;
+      }
+      .hero h1 {
+        font-size: clamp(104px, 15.5vw, 176px); line-height: .88;
+        letter-spacing: .01em; color: var(--paper);
+        margin-top: 20px;
+      }
+      .hero .sub {
+        margin: 20px 0 0; font-size: clamp(19px, 2.5vw, 24px); line-height: 1.35;
+        color: var(--text); font-weight: 700; max-width: 440px;
+      }
+      .hero .sub em { font-style: normal; color: var(--gold-bright); }
+      .hero .small { margin: 12px 0 0; color: var(--muted); font-size: 15px; max-width: 420px; }
+      .btn-enter {
+        display: inline-block; margin-top: 26px; min-height: 56px; padding: 14px 30px;
+        border: 1px solid #10151a; border-radius: 6px; cursor: pointer; text-decoration: none;
+        background: var(--aurora);
+        color: #0b0e11; font-family: var(--mono); font-weight: 700; font-size: 14px; letter-spacing: .16em; text-transform: uppercase;
+      }
+      .btn-enter:active { transform: translate(1px,1px); }
+      .hero-counters { display: flex; gap: 0; margin-top: 36px; border-top: 1px solid var(--line); }
+      .hcount { padding: 16px 22px 2px 0; margin-right: 22px; }
+      .hcount + .hcount { border-left: 1px solid var(--line-soft); padding-left: 22px; margin-right: 22px; }
+      .hcount .n { font-family: var(--mono); font-size: clamp(20px, 3vw, 27px); font-weight: 700; color: var(--paper); line-height: 1.1; white-space: nowrap; }
+      .hcount .n .gold { color: var(--gold-bright); }
+      .hcount .l { font-family: var(--mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--faint); font-weight: 600; margin-top: 5px; }
+
+      /* ---------- hero coin ---------- */
+      .coin-scene { display: grid; place-items: center; perspective: 1100px; position: relative; }
+      .coin-float {
+        animation: coinWobble 7.5s ease-in-out infinite alternate;
+        transform-style: preserve-3d;
+        filter: drop-shadow(0 30px 28px rgba(0,0,0,.55));
+        width: min(430px, 94%);
+      }
+      @keyframes coinWobble {
+        from { transform: translateY(-5px) rotateY(-15deg); }
+        to   { transform: translateY(7px) rotateY(15deg); }
+      }
+      .coin-sweep { animation: sweepMove 4.8s ease-in-out infinite; will-change: transform; }
+      @keyframes sweepMove {
+        0%, 52% { transform: translateX(0) rotate(18deg); }
+        88%, 100% { transform: translateX(620px) rotate(18deg); }
+      }
+      .hero-coin { width: 100%; height: auto; display: block; }
+      .coin-hint { text-align: center; font-family: var(--mono); font-size: 11px; letter-spacing: .08em; color: var(--faint); margin-top: 14px; }
+      .coin-chip {
+        position: absolute; top: 12px; left: 12px; z-index: 3;
+        background: rgba(8,8,8,.88); border: 1px solid var(--gold-deep); border-radius: 999px;
+        padding: 6px 14px; font-family: var(--mono); font-size: 12px; color: var(--gold-bright);
+      }
+
+      /* ---------- trust strip — hairline row, not boxes ---------- */
+      .trust {
+        display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+        border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+        margin-top: 8px;
+      }
+      .trust-cell { padding: 22px 22px 22px 0; position: relative; }
+      .trust-cell + .trust-cell { border-left: 1px solid var(--line-soft); padding-left: 22px; }
+      .trust-cell::before { content: "◆"; position: absolute; top: 10px; right: 12px; font-size: 8px; color: rgba(255,255,255,.5); }
+      .trust-cell .n { font-family: var(--mono); font-size: clamp(29px, 3.9vw, 43px); font-weight: 700; color: var(--paper); line-height: 1.05; letter-spacing: -.02em; white-space: nowrap; }
+      .trust-cell .n .gold { color: var(--gold-bright); }
+      .trust-cell .l { color: var(--muted); font-size: 13.5px; margin-top: 7px; font-weight: 600; }
+
+      /* ---------- steps ---------- */
+      .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px; }
+      .step {
+        background: rgba(10,10,10,.72); border: 1px solid var(--line-soft); border-radius: var(--radius);
+        padding: 18px 20px; position: relative;
+      }
+      .step::before, .step::after { content: ""; position: absolute; width: 10px; height: 10px; border-color: var(--gold-bright); border-style: solid; opacity: .7; }
+      .step::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+      .step::after { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+      .step .num { font-family: var(--mono); font-size: 13px; font-weight: 700; letter-spacing: .18em; color: var(--gold-bright); line-height: 1; }
+      .step h3 { font-size: 26px; color: var(--paper); margin: 10px 0 4px; }
+      .step p { margin: 0; color: var(--muted); font-size: 13.5px; }
+      .step .arr { position: absolute; top: 18px; right: 16px; color: var(--faint); font-weight: 800; }
+
+      /* ---------- print room ---------- */
+      .room {
+        border: 1px solid var(--line); border-radius: 14px;
+        background: linear-gradient(160deg, rgba(18,18,18,.92), rgba(10,10,10,.94));
+        overflow: hidden; margin-top: 44px;
+        box-shadow: 8px 8px 0 rgba(0,0,0,.45), 0 24px 60px rgba(0,0,0,.4);
+        position: relative;
+      }
+      .room-head {
+        display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; flex-wrap: wrap;
+        padding: 22px 26px 0;
+      }
+      .room-head h2 { font-size: clamp(36px, 5vw, 48px); color: var(--paper); line-height: .95; }
+      .room-head .tag { font-family: var(--mono); font-size: 10.5px; color: var(--faint); letter-spacing: .18em; }
+      .room-tag { margin-bottom: 8px; }
+      .room-tag::after { display: none; }
+      .room-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 0; }
+      .press-side {
+        padding: 22px 24px 26px; display: flex; flex-direction: column;
+        border-right: 1px solid var(--line-soft);
+      }
+      .press-viewport {
+        position: relative;
+        flex: 1; min-height: 400px; border-radius: var(--radius);
+        background:
+          repeating-radial-gradient(circle at 50% 42%, transparent 0 22px, rgba(255,255,255,.025) 22px 23px, transparent 23px 44px),
+          radial-gradient(ellipse 72% 55% at 50% 40%, rgba(148,163,184,.06), transparent 70%),
+          linear-gradient(180deg, #0d0d0d, var(--ink-2));
+        border: 1px solid var(--line-soft);
+        display: grid; place-items: center; perspective: 1000px;
+        cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none;
+        overflow: hidden;
+      }
+      .press-viewport:active { cursor: grabbing; }
+      .press-3d { transform-style: preserve-3d; will-change: transform; }
+      .press-hint { text-align: center; font-family: var(--mono); font-size: 11px; letter-spacing: .04em; color: var(--faint); margin-top: 12px; }
+      #drop-coin { transform-box: fill-box; transform-origin: center; opacity: 0; }
+      #drop-coin.dropping { animation: coinDrop .72s cubic-bezier(.3,.6,.4,1); }
+      @keyframes coinDrop {
+        0% { transform: translateY(-58px); opacity: 0; }
+        18% { opacity: 1; }
+        72% { transform: translateY(3px); opacity: 1; }
+        86% { transform: translateY(-5px); opacity: 1; }
+        100% { transform: translateY(0); opacity: 1; }
+      }
+      #drop-coin .drop-shine { transform-box: fill-box; }
+      #drop-coin.dropping .drop-shine { animation: shineMove .72s ease; }
+      @keyframes shineMove {
+        from { transform: translateX(-4px); }
+        to   { transform: translateX(42px); }
+      }
+      #press-wheel { transform-box: fill-box; transform-origin: center; }
+      #press-wheel.spinning { animation: wheelSpin .85s cubic-bezier(.3,.6,.3,1); }
+      @keyframes wheelSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+      #press-print { cursor: pointer; }
+      #press-print:hover .print-btn-body { filter: brightness(1.15); }
+
+      .panel-side { padding: 22px 24px 26px; }
+      .tabs { display: flex; gap: 8px; margin-bottom: 18px; }
+      .tab {
+        flex: 1; min-height: 44px; border-radius: 6px; cursor: pointer;
+        background: var(--ink-2); border: 1px solid var(--line); color: var(--muted);
+        font-family: var(--mono); font-weight: 700; font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+      }
+      .tab[aria-selected="true"] { color: #0a0a0a; background: #e8e8e8; border-color: #e8e8e8; }
+      .panel-title { font-family: var(--mono); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--gold-bright); font-weight: 700; margin-bottom: 12px; }
+      .panel-title::before { content: "◆  "; font-size: 9px; }
+
+      .set-row { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; padding: 10px 0; border-top: 1px solid var(--line-soft); font-size: 14.5px; }
+      .set-row:first-of-type { border-top: none; }
+      .set-row .k { color: var(--muted); }
+      .set-row .v { font-family: var(--mono); color: var(--paper); font-weight: 600; text-align: right; }
+      .set-row .v.gold { color: var(--gold-bright); }
+      .set-row.total .k { color: var(--text); font-weight: 700; }
+      .set-row.total .v { color: var(--gold-bright); font-size: 19px; font-weight: 700; }
+
+      .qty-row { display: flex; align-items: stretch; gap: 10px; padding: 10px 0 4px; }
+      .qty-label { align-self: center; color: var(--muted); font-size: 14.5px; margin-right: auto; }
+      .qty-btn {
+        width: 48px; min-height: 50px; border-radius: 6px; cursor: pointer;
+        background: var(--ink-2); border: 1px solid var(--line); color: var(--gold-bright);
+        font-size: 22px; font-weight: 700; font-family: var(--mono);
+      }
+      .qty-btn:hover { border-color: var(--gold-deep); }
+      .qty-btn:disabled { opacity: .35; cursor: not-allowed; }
+      .qty-display {
+        width: 66px; display: grid; place-items: center; min-height: 50px;
+        background: var(--ink-2); border: 1px solid var(--line); border-radius: 6px;
+        font-family: var(--mono); font-size: 22px; font-weight: 700; color: var(--paper);
+      }
+      .qty-note { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; color: var(--faint); text-align: right; margin: 2px 0 6px; }
+
+      .btn-connect {
+        width: 100%; margin-top: 14px; min-height: 54px; border: 1px solid #e8e8e8; border-radius: 6px; cursor: pointer;
+        background: #e8e8e8;
+        color: #0a0a0a; font-family: var(--mono); font-weight: 700; font-size: 14px; letter-spacing: .16em; text-transform: uppercase;
+      }
+      .btn-enter.quiet { background: #e8e8e8; color: #0a0a0a; border-color: #e8e8e8; }
+      .btn-connect:active { transform: translate(1px,1px); }
+      .btn-ai {
+        width: 100%; margin-top: 12px; min-height: 50px; border-radius: 6px; cursor: pointer;
+        background: transparent; border: 1.5px solid var(--gold-deep); color: var(--gold-bright);
+        font-family: var(--mono); font-weight: 700; font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+      }
+      .launch-note { font-family: var(--mono); font-size: 11.5px; color: var(--faint); text-align: center; margin: 10px 0 0; }
+      .launch-note.warn { color: var(--gold-bright); }
+
+      .ai-box { margin-top: 16px; background: var(--ink-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; position: relative; }
+      .ai-box pre {
+        margin: 0; font-family: var(--mono); font-size: 13px; line-height: 1.7;
+        color: var(--paper); white-space: pre-wrap; word-break: break-word;
+      }
+      .btn-copy {
+        margin-top: 14px; min-height: 42px; padding: 0 20px; border-radius: 6px; cursor: pointer;
+        background: var(--panel-2); border: 1px solid var(--gold-deep); color: var(--gold-bright);
+        font-family: var(--mono); font-weight: 700; font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase;
+      }
+      .copy-done { color: var(--green); font-family: var(--mono); font-size: 12px; margin-left: 10px; font-weight: 600; }
+
+      .acct-empty {
+        border: 1.5px dashed var(--line); border-radius: var(--radius);
+        padding: 22px 18px; text-align: center; margin-bottom: 14px;
+        background:
+          radial-gradient(ellipse 70% 90% at 50% 50%, rgba(255,255,255,.05), transparent 75%),
+          var(--ink-2);
+      }
+      .acct-empty .ghost-stamp {
+        display: inline-block; border: 1.5px solid var(--line); border-radius: 4px;
+        padding: 10px 22px; font-family: var(--mono); font-weight: 700;
+        letter-spacing: .22em; font-size: 12px; color: var(--faint);
+        transform: rotate(-2deg);
+      }
+      .acct-empty p { margin: 14px 0 0; color: var(--muted); font-size: 14px; }
+      .acct-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+      .acct-cell { background: var(--ink-2); border: 1px solid var(--line-soft); border-radius: 8px; padding: 14px 16px; position: relative; }
+      .acct-cell .l { font-family: var(--mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--faint); font-weight: 700; }
+      .acct-cell .n { font-family: var(--mono); font-size: 19px; font-weight: 600; color: var(--paper); margin-top: 3px; }
+      .acct-note { color: var(--muted); font-size: 14px; margin: 16px 0 0; text-align: center; }
+
+      /* ---------- progress bars ---------- */
+      .bars { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+      .bar-card { background: rgba(10,10,10,.72); border: 1px solid var(--line-soft); border-radius: var(--radius); padding: 18px 20px; position: relative; }
+      .bar-card::before, .chart-card::before, .explorer::before, .reward-card::before, .contract-card::before { content: ""; position: absolute; top: -1px; left: -1px; width: 10px; height: 10px; border-top: 2px solid var(--gold-bright); border-left: 2px solid var(--gold-bright); opacity: .7; }
+      .bar-meta { display: flex; justify-content: space-between; gap: 10px; font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 9px; font-weight: 600; }
+      .bar-meta .mono { color: var(--gold-bright); }
+      .bar-track { height: 12px; border-radius: 3px; background: var(--panel-2); border: 1px solid var(--line-soft); overflow: hidden; }
+      .bar-fill { height: 100%; width: 0%; background: #6f6f6f; border-radius: 3px; transition: width .6s ease; }
+      .bar-sub { font-size: 12.5px; color: var(--faint); margin-top: 9px; }
+
+      /* ---------- sections: hairline dividers, not boxes ---------- */
+      section { padding: 58px 0 0; margin-top: 58px; border-top: 1px solid var(--line-soft); position: relative; }
+      section::before { content: "◆"; position: absolute; top: -7px; left: 0; font-size: 10px; color: var(--gold-bright); background: var(--ink); padding-right: 10px; }
+      .sec-head { max-width: 660px; }
+      .sec-head h2 { font-size: clamp(44px, 6.5vw, 64px); font-weight: 400; color: var(--paper); line-height: .95; }
+      .sec-head p { color: var(--muted); margin: 12px 0 0; font-size: 15.5px; max-width: 560px; }
+
+      /* data */
+      .stage-btns { display: flex; gap: 9px; flex-wrap: wrap; margin-top: 24px; }
+      .stage-btn {
+        min-height: 48px; padding: 8px 18px; border-radius: 6px; cursor: pointer;
+        background: rgba(10,10,10,.8); border: 1px solid var(--line); color: var(--muted);
+        font-family: var(--mono); font-weight: 700; font-size: 13px; letter-spacing: .1em; text-transform: uppercase; text-align: left;
+      }
+      .stage-btn::before { content: "◆  "; font-size: 9px; color: var(--gold-bright); vertical-align: middle; }
+      .stage-btn small { display: block; font-family: var(--mono); font-weight: 500; font-size: 11px; letter-spacing: .02em; text-transform: none; margin-top: 1px; }
+      .stage-btn[aria-pressed="true"] { color: #0a0a0a; background: #e8e8e8; border-color: #e8e8e8; }
+      .stage-btn[aria-pressed="true"]::before { color: #0a0a0a; }
+      .stage-btn[aria-pressed="true"] small { color: #4d4d4d; }
+      .chart-card { margin-top: 16px; background: rgba(10,10,10,.72); border: 1px solid var(--line-soft); border-radius: var(--radius); padding: 20px 20px 12px; position: relative; }
+      .chart-title { font-family: var(--mono); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold-bright); font-weight: 700; margin-bottom: 8px; }
+      .chart-card svg { width: 100%; height: auto; display: block; }
+      .stage-detail { margin-top: 14px; font-size: 15px; color: var(--muted); }
+      .stage-detail strong { color: var(--paper); font-family: var(--display); font-size: 20px; letter-spacing: .06em; font-weight: 400; }
+      .stage-detail .mono { color: var(--gold-bright); }
+
+      .explorer { margin-top: 16px; background: rgba(10,10,10,.72); border: 1px solid var(--line-soft); border-radius: var(--radius); padding: 20px; position: relative; }
+      .explorer-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+      .explorer-serial { font-family: var(--mono); font-size: 24px; font-weight: 700; color: var(--paper); }
+      .explorer-info { font-size: 14px; color: var(--muted); }
+      .explorer-info .mono { color: var(--gold-bright); }
+      input[type="range"] {
+        width: 100%; margin: 16px 0 4px; accent-color: var(--gold); height: 28px; cursor: pointer;
+      }
+      .range-ends { display: flex; justify-content: space-between; font-size: 11px; color: var(--faint); font-family: var(--mono); }
+
+      .dtable { margin-top: 16px; border: 1px solid var(--line-soft); border-radius: var(--radius); overflow: hidden; }
+      .drow {
+        display: grid; grid-template-columns: 1.15fr 1fr .8fr .8fr 1fr; gap: 10px; align-items: center;
+        padding: 14px 18px; background: rgba(10,10,10,.72); border-top: 1px solid var(--line-soft); font-size: 15px;
+      }
+      .drow:first-child { border-top: none; }
+      .drow.head { background: var(--ink-2); padding: 10px 18px; }
+      .drow.head span { font-family: var(--mono); font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--faint); font-weight: 700; }
+      .drow .st { font-family: var(--display); font-size: 19px; letter-spacing: .06em; font-weight: 400; color: var(--paper); }
+      .drow .num { font-family: var(--mono); color: var(--text); }
+      .drow .num.free { color: var(--green); }
+      .drow.sel { background: var(--panel-2); box-shadow: inset 3px 0 0 var(--gold); }
+
+      /* invite */
+      .ref-link-box {
+        margin-top: 22px; display: flex; gap: 10px; align-items: stretch; flex-wrap: wrap;
+        background: rgba(10,10,10,.72); border: 1px solid var(--line-soft); border-radius: var(--radius); padding: 14px;
+      }
+      .ref-link-text {
+        flex: 1; min-width: 220px; display: flex; align-items: center;
+        background: var(--ink-2); border: 1px dashed var(--line); border-radius: 8px;
+        padding: 10px 16px; color: var(--faint); font-family: var(--mono); font-size: 13px; font-weight: 600;
+      }
+      .reward-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
+      .reward-card { background: rgba(10,10,10,.72); border: 1px solid var(--line-soft); border-radius: var(--radius); padding: 20px; position: relative; }
+      .reward-card .n { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; color: var(--gold-bright); border: 1px solid var(--gold-deep); border-radius: 4px; display: inline-block; padding: 3px 9px; margin-bottom: 11px; }
+      .reward-card .n::before { content: "◆  "; font-size: 8px; }
+      .reward-card h3 { font-size: 25px; color: var(--paper); margin-bottom: 6px; }
+      .reward-card p { margin: 0; color: var(--muted); font-size: 14px; }
+      .reward-card.win { border-color: #3d3d3d; background: #111111; }
+      .reward-card.win h3 { color: var(--paper); }
+
+      /* rules + faq */
+      .rules { display: grid; grid-template-columns: 1fr 1fr; gap: 0 34px; margin-top: 20px; }
+      .rule { display: flex; gap: 13px; padding: 15px 0; border-top: 1px solid var(--line-soft); }
+      .rule .tick { color: var(--gold-bright); font-size: 11px; flex-shrink: 0; padding-top: 5px; }
+      .rule p { margin: 0; font-size: 15px; color: var(--muted); }
+      .rule p strong { color: var(--text); }
+      .faq { margin-top: 26px; display: flex; flex-direction: column; gap: 10px; }
+      .faq details { background: rgba(10,10,10,.72); border: 1px solid var(--line-soft); border-radius: var(--radius); padding: 4px 20px; }
+      .faq summary { cursor: pointer; font-family: var(--body); font-weight: 700; font-size: 15.5px; color: var(--paper); padding: 14px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+      .faq summary::-webkit-details-marker { display: none; }
+      .faq summary::after { content: "+"; color: var(--gold-bright); font-family: var(--mono); font-size: 20px; font-weight: 700; flex-shrink: 0; }
+      .faq details[open ] summary::after { content: "−"; }
+      .faq details p { margin: 0 0 15px; color: var(--muted); font-size: 14.5px; max-width: 640px; }
+
+      /* tokenomics strip */
+      .supply-line { display: flex; align-items: baseline; gap: 12px; margin-top: 22px; flex-wrap: wrap; }
+      .supply-line .big { font-family: var(--mono); font-size: clamp(22px, 4vw, 32px); font-weight: 700; color: var(--paper); }
+      .supply-line .lbl { font-family: var(--mono); color: var(--muted); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }
+      .tok-strip { display: flex; height: 36px; border-radius: 6px; overflow: hidden; border: 1px solid var(--line); margin-top: 18px; }
+      .tok-seg { height: 100%; }
+      .tok-legend { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 14px; }
+      .tok-item .sw { width: 12px; height: 12px; border-radius: 3px; display: inline-block; margin-right: 8px; vertical-align: -1px; }
+      .tok-item .nm { font-weight: 700; font-size: 15px; color: var(--text); }
+      .tok-item .nm::before { content: "◆  "; font-size: 8px; color: var(--gold-bright); vertical-align: middle; }
+      .tok-item .am { font-family: var(--mono); font-size: 13px; color: var(--muted); display: block; margin-top: 2px; }
+
+      /* footer */
+      footer { padding: 54px 0 40px; margin-top: 64px; border-top: 1px solid var(--line-soft); }
+      .contracts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+      .contract-card { background: rgba(10,10,10,.72); border: 1px solid var(--line-soft); border-radius: var(--radius); padding: 16px 18px; position: relative; }
+      .contract-card .label { font-family: var(--mono); font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold-bright); font-weight: 700; }
+      .contract-card .label::before { content: "◆  "; font-size: 8px; }
+      .contract-card .addr { font-family: var(--mono); font-size: 14px; color: var(--muted); margin-top: 4px; }
+      .foot-line { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; color: var(--faint); font-size: 13px; }
+      .foot-brand { display: flex; align-items: center; gap: 10px; color: var(--muted); font-weight: 600; }
+      .foot-brand .emblem { width: 24px; height: 24px; font-size: 15px; }
+
+      /* ---------- ledger plates: print field, tiers, specimen, explorer, checker ---------- */
+      .plate-label {
+        text-align: center; font-family: var(--mono); font-size: 11px; font-weight: 700;
+        letter-spacing: .26em; color: var(--gold-bright); margin-bottom: 12px;
+      }
+      .field-plate {
+        margin: 30px 0 0; border: 1px solid var(--line); border-radius: 14px;
+        background: linear-gradient(160deg, rgba(18,18,18,.85), rgba(10,10,10,.92));
+        padding: 20px 22px 18px; position: relative;
+      }
+      .field-plate::before { content: ""; position: absolute; top: -1px; left: -1px; width: 10px; height: 10px; border-top: 2px solid var(--gold-bright); border-left: 2px solid var(--gold-bright); opacity: .7; }
+      .field-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+      .fig-label { font-family: var(--mono); font-size: 11.5px; font-weight: 700; letter-spacing: .22em; color: var(--paper); }
+      .fig-label::before { content: "◆  "; font-size: 9px; color: var(--gold-bright); }
+      .field-note { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--gold-bright); }
+      .field-counters { display: flex; gap: 0; margin-top: 16px; border-top: 1px solid var(--line-soft); }
+      .fcount { padding: 13px 20px 0 0; margin-right: 20px; }
+      .fcount + .fcount { border-left: 1px solid var(--line-soft); padding-left: 20px; }
+      .fcount .n { font-family: var(--mono); font-size: clamp(19px, 2.8vw, 25px); font-weight: 700; color: var(--paper); line-height: 1.1; white-space: nowrap; }
+      .fcount .n.gold { color: var(--gold-bright); }
+      .fcount .l { font-family: var(--mono); font-size: 9.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--faint); font-weight: 600; margin-top: 4px; }
+      .field-plate canvas { display: block; width: 100%; margin-top: 8px; }
+      .field-cap { font-size: 13px; color: var(--muted); margin: 10px 0 0; max-width: 640px; }
+      .field-legend { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 10px; font-family: var(--mono); font-size: 11px; color: var(--muted); }
+      .field-legend .sw { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: 0; }
+
+      .tier-cards { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 24px; }
+      .tier-card {
+        text-align: left; cursor: pointer; border-radius: var(--radius); padding: 16px 16px 14px;
+        background: rgba(10,10,10,.72); border: 1px solid var(--line-soft); color: var(--text);
+        font-family: var(--body); position: relative; min-height: 0;
+      }
+      .tier-card .tc-num { font-family: var(--mono); font-size: 21px; font-weight: 700; color: var(--gold-bright); line-height: 1; }
+      .tier-card .tc-name { font-family: var(--display); font-size: 23px; letter-spacing: .08em; color: var(--paper); margin-top: 7px; text-transform: uppercase; }
+      .tier-card .tc-range { font-family: var(--mono); font-size: 11px; color: var(--faint); margin-top: 2px; }
+      .tier-card .tc-face { font-size: 13px; color: var(--muted); margin-top: 10px; line-height: 1.5; }
+      .tier-card .tc-face .mono { color: var(--paper); font-weight: 600; }
+      .tier-card .tc-face .mono.free { color: var(--green); }
+      .tier-card .tc-badge {
+        display: inline-block; margin-top: 11px; font-family: var(--mono); font-size: 10px; font-weight: 700;
+        letter-spacing: .12em; padding: 4px 8px; border-radius: 4px;
+        border: 1px solid var(--gold-deep); color: var(--gold-bright);
+      }
+      .tier-card.first { border-color: #3d3d3d; background: #131313; }
+      .tier-card.first .tc-badge { background: #e8e8e8; color: #0a0a0a; border-color: #e8e8e8; }
+      .tier-card[aria-pressed="true"] { border-color: var(--gold-bright); box-shadow: inset 0 0 0 1px var(--gold-bright), 3px 3px 0 rgba(0,0,0,.6); }
+      .honest-line { margin: 14px 0 0; font-size: 14px; color: var(--muted); }
+      .honest-line strong { color: var(--paper); }
+      .drow.econ { grid-template-columns: .8fr 1.25fr 1fr .95fr; }
+      .table-note { font-size: 12.5px; color: var(--faint); margin: 10px 0 0; font-family: var(--mono); }
+
+      .checker { margin-top: 18px; background: rgba(10,10,10,.72); border: 1px solid var(--line-soft); border-radius: var(--radius); padding: 20px; position: relative; }
+      .checker::before { content: ""; position: absolute; top: -1px; left: -1px; width: 10px; height: 10px; border-top: 2px solid var(--gold-bright); border-left: 2px solid var(--gold-bright); opacity: .7; }
+      .checker-row { display: flex; gap: 10px; align-items: stretch; flex-wrap: wrap; }
+      .checker-row label { align-self: center; font-family: var(--mono); font-size: 13px; color: var(--muted); font-weight: 600; }
+      .checker-row input {
+        width: 130px; min-height: 48px; padding: 0 14px; border-radius: 6px;
+        background: var(--ink-2); border: 1px solid var(--line); color: var(--paper);
+        font-family: var(--mono); font-size: 17px; font-weight: 700;
+      }
+      .btn-check {
+        min-height: 48px; padding: 0 22px; border-radius: 6px; cursor: pointer;
+        background: #e8e8e8; border: 1px solid #e8e8e8; color: #0a0a0a;
+        font-family: var(--mono); font-weight: 700; font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+      }
+      .btn-check:active { transform: translate(1px,1px); }
+      .checker-out { margin: 14px 0 0; font-size: 15px; color: var(--muted); }
+      .checker-out strong { color: var(--paper); }
+      .checker-out .mono { color: var(--gold-bright); }
+      .checker-note { margin: 8px 0 0; font-family: var(--mono); font-size: 11px; color: var(--faint); }
+
+      .spec-btns { display: flex; gap: 9px; flex-wrap: wrap; margin-top: 24px; }
+      .spec-btn {
+        min-height: 44px; padding: 6px 18px; border-radius: 6px; cursor: pointer;
+        background: rgba(10,10,10,.8); border: 1px solid var(--line); color: var(--muted);
+        font-family: var(--mono); font-weight: 700; font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+      }
+      .spec-btn[aria-pressed="true"] { color: #0a0a0a; background: #e8e8e8; border-color: #e8e8e8; }
+      .spec-plate {
+        margin-top: 16px; border: 1px solid var(--line); border-radius: 14px;
+        background:
+          repeating-radial-gradient(circle at 50% 46%, transparent 0 24px, rgba(255,255,255,.05) 24px 25px, transparent 25px 48px),
+          linear-gradient(160deg, rgba(18,18,18,.85), rgba(10,10,10,.94));
+        padding: 18px 22px; position: relative;
+      }
+      .spec-margin { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-family: var(--mono); font-size: 11.5px; font-weight: 700; letter-spacing: .18em; color: var(--gold-bright); }
+      .spec-margin.bottom { color: var(--paper); }
+      .spec-margin.bottom span:first-child { color: var(--gold-bright); }
+      .spec-coin { display: grid; place-items: center; padding: 16px 0 8px; }
+      .spec-coin svg { width: min(300px, 78vw); height: auto; filter: drop-shadow(0 22px 22px rgba(0,0,0,.5)); }
+
+      .explorer-plate canvas { cursor: crosshair; touch-action: pan-y; }
+      .explorer-readout {
+        margin-top: 12px; border-top: 1px solid var(--line-soft); padding-top: 12px;
+        font-family: var(--mono); font-size: 14.5px; color: var(--muted);
+      }
+      .explorer-readout strong { color: var(--paper); }
+      .explorer-readout .gold { color: var(--gold-bright); }
+      .ref-cta { margin-top: 16px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+      .ref-cta .btn-enter { margin-top: 0; }
+      .ref-cta p { margin: 0; color: var(--muted); font-size: 14px; max-width: 380px; }
+      .disclaimer { margin-top: 18px; font-size: 12.5px; color: var(--faint); max-width: 760px; }
+
+      @media (max-width: 920px) {
+        .trust { grid-template-columns: 1fr 1fr; }
+        .trust-cell:nth-child(3) { border-left: none; padding-left: 0; }
+        .trust-cell:nth-child(n+3) { border-top: 1px solid var(--line-soft); }
+        .steps { grid-template-columns: 1fr 1fr; }
+      }
+      @media (max-width: 860px) {
+        .hero { grid-template-columns: 1fr; gap: 34px; padding-top: 24px; }
+        .hero h1 { font-size: clamp(96px, 26vw, 150px); }
+        .hero-counters { flex-wrap: wrap; }
+        .room-grid { grid-template-columns: 1fr; }
+        .press-side { border-right: none; border-bottom: 1px solid var(--line-soft); }
+        .press-viewport { min-height: 340px; }
+        .bars { grid-template-columns: 1fr; }
+        .reward-cards { grid-template-columns: 1fr; }
+        .rules { grid-template-columns: 1fr; }
+        .contracts { grid-template-columns: 1fr; }
+        .tok-legend { grid-template-columns: 1fr 1fr; }
+        .drow { grid-template-columns: 1.2fr 1fr .8fr .8fr; }
+        .drow .col-cap, .drow.head .col-cap { display: none; }
+        .drow.econ { grid-template-columns: .7fr 1.2fr 1fr .9fr; }
+        .tier-cards { grid-template-columns: 1fr 1fr; }
+        .tier-card.first { grid-column: 1 / -1; }
+        .brand-tag { display: none; }
+      }
+      @media (max-width: 520px) {
+        .steps { grid-template-columns: 1fr; }
+        .trust { grid-template-columns: 1fr; }
+        .trust-cell + .trust-cell { border-left: none; padding-left: 0; border-top: 1px solid var(--line-soft); }
+        .status-chip { font-size: 10px; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        .bar-fill { transition: none; }
+        .coin-float, .coin-sweep, #drop-coin.dropping, #drop-coin .drop-shine, #press-wheel.spinning { animation: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+
+      <div class="toprow">
+        <div class="brand-mark"><span class="emblem"><span>T</span></span><span class="brand-word">TALVIO</span><span class="brand-tag">MINT · TV-01</span></div>
+        <div class="status-chip"><span class="status-dot"></span> Launching soon — the press opens at launch</div>
+      </div>
+
+      <!-- 1 · hero · § 00 ledger -->
+      <div class="sec-tag" style="margin-top:30px;"><span class="diamond">◆</span> § 00 · Ledger — Talvio Mint</div>
+      <div class="hero">
+        <div>
+          <span class="free-badge">First print free</span>
+          <h1>Talvio</h1>
+          <p class="sub">The first print is <em>free</em> for every Binance Agentic ID.</p>
+          <p class="small">Each print strikes one coin and pays $TALV to your wallet. Earlier tiers pay more.</p>
+          <a class="btn-enter" href="#print-room">Enter the print room</a>
+          <div class="hero-counters">
+            <div class="hcount"><div class="n">— <span class="gold">/ 10,000</span></div><div class="l">Prints minted</div></div>
+            <div class="hcount"><div class="n">Stage I</div><div class="l">Current stage</div></div>
+            <div class="hcount"><div class="n">100M <span class="gold">$TALV</span></div><div class="l">Next coin pays</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="plate-label">PLATE Nº 1 · TALVIO MINT</div>
+          <div class="coin-scene">
+            <div class="coin-float">
+              <svg class="hero-coin" viewBox="0 0 400 400" role="img" aria-label="A dark steel $TALV coin with an engraved T monogram">
+                <defs>
+                  <radialGradient id="coinGlow" cx="0.5" cy="0.5" r="0.5">
+                    <stop offset="0" stop-color="rgba(148,163,184,.13)"/>
+                    <stop offset="0.7" stop-color="rgba(148,163,184,.04)"/>
+                    <stop offset="1" stop-color="rgba(148,163,184,0)"/>
+                  </radialGradient>
+                  <radialGradient id="coinFace" cx="0.35" cy="0.3" r="0.95">
+                    <stop offset="0" stop-color="#3f434a"/>
+                    <stop offset="0.42" stop-color="#1d1f22"/>
+                    <stop offset="0.78" stop-color="#111214"/>
+                    <stop offset="1" stop-color="#0a0a0b"/>
+                  </radialGradient>
+                  <linearGradient id="coinRim" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#828d99"/>
+                    <stop offset="0.5" stop-color="#2f3338"/>
+                    <stop offset="1" stop-color="#4b545e"/>
+                  </linearGradient>
+                  <linearGradient id="sweepGrad" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0" stop-color="rgba(255,255,255,0)"/>
+                    <stop offset="0.5" stop-color="rgba(255,255,255,.16)"/>
+                    <stop offset="1" stop-color="rgba(255,255,255,0)"/>
+                  </linearGradient>
+                  <path id="arcTop" d="M 78 200 A 122 122 0 0 1 322 200" fill="none"/>
+                  <path id="arcBot" d="M 62 200 A 138 138 0 0 0 338 200" fill="none"/>
+                  <path id="tmarkHero" fill-rule="evenodd" d="M4 6 H44 V15 H29 V33 H35 V42 H13 V33 H19 V15 H4 Z M24 7.8 L26.8 10.5 L24 13.2 L21.2 10.5 Z"/>
+                  <clipPath id="coinClip"><circle cx="200" cy="200" r="148"/></clipPath>
+                </defs>
+                <circle cx="200" cy="200" r="197" fill="url(#coinGlow)"/>
+                <!-- coin thickness: stacked edge layers -->
+                <circle cx="200" cy="213" r="150" fill="#0e0e0f"/>
+                <circle cx="200" cy="207" r="150" fill="#17181a"/>
+                <circle cx="200" cy="203" r="152" fill="none" stroke="#2e3136" stroke-width="7" stroke-dasharray="4 5"/>
+                <!-- face -->
+                <circle cx="200" cy="200" r="150" fill="url(#coinFace)" stroke="url(#coinRim)" stroke-width="5"/>
+                <circle cx="200" cy="200" r="133" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2"/>
+                <circle cx="200" cy="200" r="127" fill="none" stroke="rgba(0,0,0,.5)" stroke-width="2"/>
+                <circle cx="200" cy="199" r="103" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
+                <circle cx="200" cy="201" r="103" fill="none" stroke="rgba(0,0,0,.4)" stroke-width="1.5"/>
+                <text font-family="'Bebas Neue', sans-serif" font-size="21" font-weight="600" letter-spacing="7" fill="#a7aeb6">
+                  <textPath href="#arcTop" startOffset="50%" text-anchor="middle">TALVIO</textPath>
+                </text>
+                <text x="200" y="334" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="600" letter-spacing="2.5" fill="#a7aeb6">SERIES 01</text>
+                <!-- embossed T monogram -->
+                <use href="#tmarkHero" transform="translate(203 202) scale(2.6) translate(-24 -24)" fill="rgba(0,0,0,.55)"/>
+                <use href="#tmarkHero" transform="translate(197 190) scale(2.6) translate(-24 -24)" fill="rgba(255,255,255,.5)"/>
+                <use href="#tmarkHero" transform="translate(200 196) scale(2.6) translate(-24 -24)" fill="#d6d9dd"/>
+                <!-- mint mark + denomination -->
+                <path d="M200 250 l5 5 -5 5 -5 -5 Z" fill="#a7aeb6"/>
+                <text x="200" y="282" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10.5" font-weight="600" letter-spacing="3" fill="#a7aeb6">MINT · TV-01</text>
+                <text x="200" y="312" text-anchor="middle" font-family="'Bebas Neue', sans-serif" font-weight="600" font-size="27" letter-spacing="2" fill="#a7aeb6">100M $TALV</text>
+                <path d="M86 200 l4.5 4.5 -4.5 4.5 -4.5 -4.5 Z" fill="#a7aeb6"/>
+                <path d="M314 200 l4.5 4.5 -4.5 4.5 -4.5 -4.5 Z" fill="#a7aeb6"/>
+                <!-- holographic light sweep -->
+                <g clip-path="url(#coinClip)">
+                  <rect class="coin-sweep" x="-160" y="-60" width="85" height="520" fill="url(#sweepGrad)"/>
+                </g>
+              </svg>
+            </div>
+          </div>
+          <p class="coin-hint">One print strikes one coin — yours starts at № 0001</p>
+        </div>
+      </div>
+
+      <!-- FIG. 1 · live print field — schedule preview -->
+      <figure class="field-plate" style="margin:0;">
+        <div class="field-head">
+          <span class="fig-label">FIG. 1 · LIVE PRINT FIELD</span>
+          <span class="field-note">SCHEDULE PREVIEW — CONTRACT NOT LIVE YET</span>
+        </div>
+        <div class="field-counters">
+          <div class="fcount"><div class="n">—</div><div class="l">Prints today</div></div>
+          <div class="fcount"><div class="n">—</div><div class="l">Printers today</div></div>
+          <div class="fcount"><div class="n gold">#10,000</div><div class="l">Pool opens at print</div></div>
+        </div>
+        <canvas id="print-field" role="img" aria-label="A spiral field of 10,000 dots, one per first-issue print, shaded by tier"></canvas>
+        <figcaption class="field-cap">All 10,000 first-issue prints drawn in print order — one dot each, shade by tier. The field fills with real prints once the contract is deployed; until then this is the schedule, not live activity.</figcaption>
+        <div class="field-legend" id="field-legend"></div>
+      </figure>
+
+      <div class="mint-divider" aria-hidden="true"><span class="diamond">◆</span><span class="line"></span><span>MINT · TV-01 · SERIES 01</span><span class="line"></span><span class="diamond">◆</span></div>
+
+      <!-- trust strip -->
+      <div class="trust" aria-label="Key facts">
+        <div class="trust-cell"><div class="n">10,000</div><div class="l">first-issue prints, then the pool opens</div></div>
+        <div class="trust-cell"><div class="n">5 <span class="gold">tiers</span></div><div class="l">early tiers strike the biggest coins</div></div>
+        <div class="trust-cell"><div class="n gold" style="color:var(--gold-bright);">FREE</div><div class="l">first print for every Agentic ID</div></div>
+        <div class="trust-cell"><div class="n">#10,000</div><div class="l">pool auto-opens — LP burned forever</div></div>
+      </div>
+
+      <!-- steps -->
+      <div class="steps" aria-label="How it works">
+        <div class="step"><div class="num">01</div><span class="arr">→</span><h3>Connect</h3><p>Wallet on BNB Chain + your Binance Agentic ID.</p></div>
+        <div class="step"><div class="num">02</div><span class="arr">→</span><h3>Print free</h3><p>First coin is free. Then 0.002 BNB, up to 10 prints.</p></div>
+        <div class="step"><div class="num">03</div><span class="arr">→</span><h3>Invite friends</h3><p>3 friends print — your second print is free.</p></div>
+        <div class="step"><div class="num">04</div><h3>Trade</h3><p>Print #10,000 opens the pool. $TALV trades.</p></div>
+      </div>
+
+      <!-- 2 · print room -->
+      <div class="room" id="print-room">
+        <div class="room-head">
+          <div><div class="room-tag"><span class="diamond">◆</span> § 01 · Print — Mint · TV-01</div><h2>The print room</h2></div>
+          <span class="tag">TALVIO PRESS · SERIES 01 · BNB CHAIN</span>
+        </div>
+        <div class="room-grid">
+          <div class="press-side">
+            <div class="press-viewport" id="press-viewport" aria-label="Mint press — drag to rotate">
+              <div class="coin-chip">Coins in tray&nbsp;<span id="coin-count">0</span> / 10</div>
+              <div class="press-3d" id="press-3d">
+                <svg width="330" height="352" viewBox="0 0 330 352" role="img" aria-label="A stylized coin mint press">
+                  <defs>
+                    <linearGradient id="steel" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0" stop-color="#33363b"/><stop offset=".45" stop-color="#17181a"/>
+                      <stop offset=".55" stop-color="#101113"/><stop offset="1" stop-color="#1e2023"/>
+                    </linearGradient>
+                    <linearGradient id="steelSide" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0" stop-color="#101113"/><stop offset=".5" stop-color="#26282c"/><stop offset="1" stop-color="#0b0b0c"/>
+                    </linearGradient>
+                    <linearGradient id="goldMetal" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0" stop-color="#a7b4c2"/><stop offset=".5" stop-color="#71808f"/><stop offset="1" stop-color="#49525c"/>
+                    </linearGradient>
+                    <linearGradient id="dieSteel" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0" stop-color="#404449"/><stop offset=".3" stop-color="#141518"/>
+                      <stop offset=".55" stop-color="#26282c"/><stop offset="1" stop-color="#0b0b0c"/>
+                    </linearGradient>
+                    <radialGradient id="blankGold" cx="0.38" cy="0.32" r="0.95">
+                      <stop offset="0" stop-color="#3f434a"/><stop offset=".5" stop-color="#1d1f22"/><stop offset="1" stop-color="#101112"/>
+                    </radialGradient>
+                    <linearGradient id="belt" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0" stop-color="#1e2023"/><stop offset="1" stop-color="#0b0b0c"/>
+                    </linearGradient>
+                    <linearGradient id="sweepGrad2" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0" stop-color="rgba(255,255,255,0)"/>
+                      <stop offset="0.5" stop-color="rgba(255,255,255,.3)"/>
+                      <stop offset="1" stop-color="rgba(255,255,255,0)"/>
+                    </linearGradient>
+                    <path id="tmark" fill-rule="evenodd" d="M4 6 H44 V15 H29 V33 H35 V42 H13 V33 H19 V15 H4 Z M24 7.8 L26.8 10.5 L24 13.2 L21.2 10.5 Z"/>
+                    <clipPath id="dropClip"><circle cx="165" cy="291" r="13.5"/></clipPath>
+                  </defs>
+
+                  <!-- floor shadow -->
+                  <ellipse cx="165" cy="322" rx="138" ry="12" fill="rgba(0,0,0,.5)"/>
+
+                  <!-- coin blank hopper -->
+                  <path d="M112 4 L218 4 L203 46 L127 46 Z" fill="url(#steelSide)" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
+                  <ellipse cx="165" cy="13" rx="37" ry="6.5" fill="url(#goldMetal)" stroke="#23262a" stroke-width="1"/>
+                  <ellipse cx="165" cy="23" rx="35" ry="6.5" fill="url(#goldMetal)" stroke="#23262a" stroke-width="1"/>
+                  <ellipse cx="165" cy="33" rx="32" ry="6" fill="url(#goldMetal)" stroke="#23262a" stroke-width="1"/>
+                  <!-- feed chute -->
+                  <rect x="146" y="46" width="38" height="42" fill="url(#steelSide)" stroke="rgba(255,255,255,.25)" stroke-width="1"/>
+                  <circle cx="165" cy="66" r="11" fill="url(#blankGold)" stroke="#3a3f46" stroke-width="1.2"/>
+                  <circle cx="165" cy="66" r="7" fill="none" stroke="rgba(0,0,0,.55)" stroke-width="1"/>
+
+                  <!-- main body -->
+                  <rect x="52" y="86" width="226" height="196" rx="14" fill="url(#steel)" stroke="#0a0805" stroke-width="2"/>
+                  <rect x="52" y="86" width="226" height="196" rx="14" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="1"/>
+                  <rect x="52" y="86" width="26" height="196" rx="12" fill="url(#steelSide)"/>
+                  <rect x="252" y="86" width="26" height="196" rx="12" fill="url(#steelSide)"/>
+                  <g fill="#4a4d52">
+                    <circle cx="65" cy="102" r="3"/><circle cx="65" cy="266" r="3"/>
+                    <circle cx="265" cy="102" r="3"/><circle cx="265" cy="266" r="3"/>
+                  </g>
+
+                  <!-- brand plate -->
+                  <rect x="118" y="98" width="94" height="24" rx="5" fill="#0c0c0c" stroke="url(#goldMetal)" stroke-width="1.5"/>
+                  <text x="165" y="115" text-anchor="middle" font-family="'Bebas Neue', sans-serif" font-weight="600" font-size="13" letter-spacing="4" fill="#c9c9c9">TALVIO</text>
+
+                  <!-- flywheel -->
+                  <g id="press-wheel">
+                    <circle cx="165" cy="152" r="27" fill="none" stroke="url(#goldMetal)" stroke-width="6"/>
+                    <circle cx="165" cy="152" r="6.5" fill="#c9c9c9" stroke="#3a3f46" stroke-width="1.5"/>
+                    <g stroke="#c9c9c9" stroke-width="4.5">
+                      <line x1="165" y1="128" x2="165" y2="176"/>
+                      <line x1="141" y1="152" x2="189" y2="152"/>
+                      <line x1="148" y1="135" x2="182" y2="169"/>
+                      <line x1="182" y1="135" x2="148" y2="169"/>
+                    </g>
+                  </g>
+
+                  <!-- press ram + dies -->
+                  <rect x="118" y="180" width="10" height="20" fill="url(#steelSide)"/>
+                  <rect x="202" y="180" width="10" height="20" fill="url(#steelSide)"/>
+                  <rect x="94" y="198" width="142" height="17" rx="4" fill="url(#dieSteel)" stroke="#c9c9c9" stroke-width="1.5"/>
+                  <!-- coin being struck -->
+                  <g id="struck-coin">
+                    <circle cx="165" cy="232" r="16.5" fill="url(#blankGold)" stroke="#3a3f46" stroke-width="1.5"/>
+                    <circle cx="165" cy="232" r="12" fill="none" stroke="rgba(0,0,0,.45)" stroke-width="1.2"/>
+                    <use href="#tmark" transform="translate(165 232) scale(0.46) translate(-24 -24)" fill="#d6d9dd"/>
+                  </g>
+                  <rect x="94" y="250" width="142" height="13" rx="4" fill="url(#dieSteel)" stroke="#3a3f46" stroke-width="1.5"/>
+
+                  <!-- struck coins collect here (filled by script) -->
+                  <g id="tray-coins"></g>
+                  <!-- output tray -->
+                  <path d="M84 300 L246 300 L258 314 L72 314 Z" fill="url(#belt)" stroke="#3f444b" stroke-width="1.5"/>
+
+                  <!-- coin dropping from the press -->
+                  <g id="drop-coin">
+                    <circle cx="165" cy="291" r="13.5" fill="url(#blankGold)" stroke="#3a3f46" stroke-width="1.5"/>
+                    <circle cx="165" cy="291" r="9.5" fill="none" stroke="rgba(0,0,0,.45)" stroke-width="1.1"/>
+                    <use href="#tmark" transform="translate(165 291) scale(0.38) translate(-24 -24)" fill="#d6d9dd"/>
+                    <g clip-path="url(#dropClip)">
+                      <g transform="rotate(20 165 291)"><rect class="drop-shine" x="141" y="272" width="11" height="38" fill="url(#sweepGrad2)"/></g>
+                    </g>
+                  </g>
+
+                  <!-- PRINT button on the machine stand -->
+                  <g id="press-print" role="button" aria-label="Strike a coin">
+                    <rect x="112" y="318" width="106" height="27" rx="8" fill="#0c0c0c" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+                    <rect class="print-btn-body" x="120" y="322" width="90" height="19" rx="5" fill="url(#goldMetal)" stroke="#23262a" stroke-width="1"/>
+                    <text x="165" y="336" text-anchor="middle" font-family="'Bebas Neue', sans-serif" font-weight="700" font-size="11.5" letter-spacing="3" fill="#0b0e11">PRINT</text>
+                  </g>
+
+                  <!-- lever -->
+                  <line x1="278" y1="120" x2="306" y2="84" stroke="#3a3f46" stroke-width="5" stroke-linecap="round"/>
+                  <circle cx="309" cy="80" r="8.5" fill="url(#goldMetal)" stroke="#23262a" stroke-width="1.5"/>
+                </svg>
+              </div>
+            </div>
+            <p class="press-hint">Drag the press to spin it · tap PRINT on the machine to strike a coin</p>
+          </div>
+
+          <div class="panel-side">
+            <div class="tabs" role="tablist" aria-label="Print panel">
+              <button class="tab" id="tab-print" role="tab" aria-selected="true" aria-controls="panel-print" type="button">Print</button>
+              <button class="tab" id="tab-acct" role="tab" aria-selected="false" aria-controls="panel-acct" type="button">My account</button>
+            </div>
+
+            <div id="panel-print" role="tabpanel" aria-labelledby="tab-print">
+              <div class="panel-title">Print settings</div>
+              <div class="set-row"><span class="k">Next serial number</span><span class="v" id="ps-serial">#0001</span></div>
+              <div class="set-row"><span class="k">Issuance stage</span><span class="v" id="ps-stage">Stage I</span></div>
+              <div class="set-row"><span class="k">Next coin pays</span><span class="v" id="ps-note">100M $TALV</span></div>
+              <div class="set-row"><span class="k">Price breakdown</span><span class="v gold" id="ps-breakdown">1 free</span></div>
+              <div class="set-row"><span class="k">Tokens to receive</span><span class="v gold" id="ps-receive">40,000,000 $TALV</span></div>
+              <div class="qty-row">
+                <span class="qty-label">Quantity</span>
+                <button class="qty-btn" id="qty-minus" type="button" aria-label="Decrease quantity">−</button>
+                <div class="qty-display" id="qty-display">1</div>
+                <button class="qty-btn" id="qty-plus" type="button" aria-label="Increase quantity">+</button>
+              </div>
+              <p class="qty-note">Max 10 prints per Agentic ID</p>
+              <div class="set-row total"><span class="k">Total payment</span><span class="v" id="ps-total">0 BNB · free</span></div>
+
+              <button class="btn-connect" id="btn-connect" type="button">Connect wallet</button>
+              <button class="btn-ai" id="btn-ai" type="button" aria-expanded="false" aria-controls="ai-box">Print with AI</button>
+              <p class="launch-note" id="launch-note">Printing opens at launch — connect unlocks then.</p>
+
+              <div class="ai-box" id="ai-box" hidden>
+                <pre id="agent-prompt">Print $TALV on Talvio with my wallet. First print is free, then 0.002 BNB each.
+Use my Binance Agentic ID — max 10 prints per ID.
+Print 1 now at the current stage and report the $TALV I receive.
+Stop and ask me before printing more.</pre>
+                <button class="btn-copy" id="btn-copy" type="button">Copy prompt</button>
+                <span class="copy-done" id="copy-done" hidden>Copied ✓</span>
+              </div>
+            </div>
+
+            <div id="panel-acct" role="tabpanel" aria-labelledby="tab-acct" hidden>
+              <div class="panel-title">My account</div>
+              <div class="acct-empty">
+                <span class="ghost-stamp">NO COINS YET</span>
+                <p>Your struck coins land here — serial numbers, stages, and $TALV received.</p>
+              </div>
+              <div class="acct-grid">
+                <div class="acct-cell"><div class="l">Used</div><div class="n">0 / 10</div></div>
+                <div class="acct-cell"><div class="l">Prints</div><div class="n">0</div></div>
+                <div class="acct-cell"><div class="l">Paid</div><div class="n">0 BNB</div></div>
+                <div class="acct-cell"><div class="l">Tokens received</div><div class="n">0 $TALV</div></div>
+              </div>
+              <p class="acct-note">Connect your wallet to view your prints.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 · progress bars -->
+      <div class="bars">
+        <div class="bar-card">
+          <div class="bar-meta"><span>Initial print progress</span><span class="mono">— / 10,000 prints</span></div>
+          <div class="bar-track"><div class="bar-fill" id="fill-prints"></div></div>
+          <div class="bar-sub">The pool opens on its own at print #10,000.</div>
+        </div>
+        <div class="bar-card">
+          <div class="bar-meta"><span>LP reserve progress</span><span class="mono">0 BNB saved</span></div>
+          <div class="bar-track"><div class="bar-fill" id="fill-lp"></div></div>
+          <div class="bar-sub">90% of every paid print waits here for the pool.</div>
+        </div>
+      </div>
+
+      <!-- 4 · tiers · § 02 -->
+      <section id="data">
+        <div class="sec-head">
+          <div class="sec-tag"><span class="diamond">◆</span> § 02 · Tiers — Mint · TV-01</div>
+          <h2>The five tiers</h2>
+          <p>Each tier holds 2,000 prints. Early tiers strike bigger coins — Tier I pays the most. Tap a card to inspect it.</p>
+        </div>
+
+        <div class="tier-cards" id="tier-cards" role="group" aria-label="Choose a tier"></div>
+        <p class="honest-line"><strong>Where paid BNB goes:</strong> 90% to LP reserve, 10% to project wallet, inside the same transaction.</p>
+
+        <div class="chart-card">
+          <div class="chart-title">Coin value per tier — paid print</div>
+          <svg viewBox="0 0 720 240" role="img" aria-label="Step chart: coin value drops from 100M at Stage I to 60M at Stage V">
+            <g font-family="'JetBrains Mono', monospace" font-size="13">
+              <line x1="60" y1="20" x2="60" y2="200" stroke="#262626" stroke-width="1"/>
+              <line x1="60" y1="200" x2="700" y2="200" stroke="#262626" stroke-width="1"/>
+              <text x="52" y="48" text-anchor="end" fill="#666666">100M</text>
+              <text x="52" y="84" text-anchor="end" fill="#666666">90M</text>
+              <text x="52" y="120" text-anchor="end" fill="#666666">80M</text>
+              <text x="52" y="156" text-anchor="end" fill="#666666">70M</text>
+              <text x="52" y="192" text-anchor="end" fill="#666666">60M</text>
+            </g>
+            <path id="step-path" d="M60 44 H188 V80 H316 V116 H444 V152 H572 V188 H700" fill="none" stroke="#b5b5b5" stroke-width="3" stroke-linejoin="round"/>
+            <g id="step-dots" fill="#0a0a0a" stroke="#c9c9c9" stroke-width="2.5">
+              <circle data-stage="0" cx="124" cy="44" r="6"/>
+              <circle data-stage="1" cx="252" cy="80" r="6"/>
+              <circle data-stage="2" cx="380" cy="116" r="6"/>
+              <circle data-stage="3" cx="508" cy="152" r="6"/>
+              <circle data-stage="4" cx="636" cy="188" r="6"/>
+            </g>
+            <g font-family="'Bebas Neue', sans-serif" font-size="12.5" font-weight="700" fill="#8a8a8a" text-anchor="middle">
+              <text x="124" y="224">Tier I</text>
+              <text x="252" y="224">Tier II</text>
+              <text x="380" y="224">Tier III</text>
+              <text x="508" y="224">Tier IV</text>
+              <text x="636" y="224">Tier V</text>
+            </g>
+          </svg>
+          <p class="stage-detail" id="stage-detail"></p>
+        </div>
+
+        <div class="dtable" role="table" aria-label="Economy table">
+          <div class="drow head econ" role="row">
+            <span>Tier</span><span>$TALV per print · paid</span><span>Free $TALV</span><span>Fee</span>
+          </div>
+          <div id="econ-body"></div>
+        </div>
+        <p class="table-note">FIRST PRINT PER AGENTIC ID IS FREE — GAS ONLY. FEE SHOWN IS PER PAID PRINT.</p>
+
+        <div class="checker">
+          <div class="panel-title">Print checker — read-only, no wallet needed</div>
+          <div class="checker-row">
+            <label for="check-input">Check print #</label>
+            <input id="check-input" type="number" min="1" max="211000" step="1" placeholder="8412" inputmode="numeric" />
+            <button class="btn-check" id="btn-check" type="button">Check print</button>
+          </div>
+          <p class="checker-out" id="check-out">Enter any serial from 1 to 10,000 to read its tier, face value and fee.</p>
+          <p class="checker-note">PREVIEW CALCULATOR — IT COMPUTES THE PUBLISHED SCHEDULE. THE CONTRACT IS NOT LIVE YET, SO THE PRINT DOES NOT EXIST ON-CHAIN.</p>
+        </div>
+      </section>
+
+      <!-- 5 · specimen · § 03 -->
+      <section id="specimen">
+        <div class="sec-head">
+          <div class="sec-tag"><span class="diamond">◆</span> § 03 · Specimen — Mint · TV-01</div>
+          <h2>Coin specimen</h2>
+          <p>Each tier strikes its own coin, with its own face value. Pick a tier to see its plate.</p>
+        </div>
+        <div class="spec-btns" id="spec-btns" role="group" aria-label="Choose a specimen tier"></div>
+        <div class="spec-plate">
+          <div class="spec-margin"><span id="spec-no">COIN Nº 0001</span><span>TALVIO MINT · SERIES 01</span></div>
+          <div class="spec-coin" id="spec-coin"></div>
+          <div class="spec-margin bottom"><span id="spec-tier">TIER I</span><span id="spec-range">SERIALS 1–2,000</span><span id="spec-face">FACE 100M $TALV</span></div>
+        </div>
+      </section>
+
+      <!-- 6 · explorer · § 04 -->
+      <section id="explorer-sec">
+        <div class="sec-head">
+          <div class="sec-tag"><span class="diamond">◆</span> § 04 · Explorer — Mint · TV-01</div>
+          <h2>Field</h2>
+          <p>The same 10,000-print schedule, drawn as a field of points. Hover or tap any point to read its print — neighbouring points are shown with it.</p>
+        </div>
+        <figure class="field-plate explorer-plate" style="margin-top:24px;">
+          <div class="field-head">
+            <span class="fig-label">FIG. 2 · FIELD</span>
+            <span class="field-note">SCHEDULE MODEL — NOT LIVE MINTS</span>
+          </div>
+          <canvas id="aurora-field" role="img" aria-label="An explorable spiral field of the 10,000-print schedule"></canvas>
+          <div class="explorer-readout" id="field-readout">Print Nº <strong>—</strong> · Tier <strong>—</strong> · Face <strong>— $TALV</strong></div>
+        </figure>
+
+        <div class="explorer">
+          <div class="explorer-top">
+            <span class="explorer-serial" id="ex-serial">Serial #0001</span>
+            <span class="explorer-info" id="ex-info"></span>
+          </div>
+          <input type="range" id="ex-slider" min="1" max="10000" step="1" value="1" aria-label="Explore a serial number" />
+          <div class="range-ends"><span>#0001</span><span>#10000</span></div>
+        </div>
+      </section>
+
+      <!-- 7 · referral · § 05 -->
+      <section id="invite">
+        <div class="sec-head">
+          <div class="sec-tag"><span class="diamond">◆</span> § 05 · Referral — Mint · TV-01</div>
+          <h2>Invite friends</h2>
+          <p>Invite 3 friends to complete their first print. Your second print is free.</p>
+        </div>
+        <div class="ref-link-box">
+          <div class="ref-link-text" id="ref-link-text">Available after connecting</div>
+        </div>
+        <div class="ref-cta">
+          <a class="btn-enter quiet" href="#print-room">Get your invite link</a>
+          <p>Connect in the print room at launch — your personal link appears here, ready to share.</p>
+        </div>
+        <div class="reward-cards">
+          <div class="reward-card">
+            <span class="n">FRIEND 1</span>
+            <h3>They print free</h3>
+            <p>Your friend&rsquo;s first print is free too — they only pay gas.</p>
+          </div>
+          <div class="reward-card">
+            <span class="n">FRIEND 2</span>
+            <h3>The stage fills faster</h3>
+            <p>Every friend brings the next tier closer — and the pool with it.</p>
+          </div>
+          <div class="reward-card win">
+            <span class="n">FRIEND 3</span>
+            <h3>Your second print is free</h3>
+            <p>Three friends in, your next print costs nothing but gas.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8 · pool: rules + faq · § 06 -->
+      <section id="rules">
+        <div class="sec-head">
+          <div class="sec-tag"><span class="diamond">◆</span> § 06 · Pool — Mint · TV-01</div>
+          <h2>Pool &amp; rules</h2>
+          <p>Set in the contract before launch. Nothing changes after.</p>
+        </div>
+        <div class="rules">
+          <div class="rule"><span class="tick">◆</span><p><strong>The first print is free</strong> for every Binance Agentic ID.</p></div>
+          <div class="rule"><span class="tick">◆</span><p><strong>90% of paid BNB</strong> goes to the LP reserve. 10% goes to the project wallet.</p></div>
+          <div class="rule"><span class="tick">◆</span><p><strong>Max 10 prints</strong> per Agentic ID — first one free, the rest 0.002 BNB each.</p></div>
+          <div class="rule"><span class="tick">◆</span><p><strong>The pool opens itself</strong> at print #10,000. The LP is burned, so it can never be pulled.</p></div>
+          <div class="rule"><span class="tick">◆</span><p><strong>211,000 prints max</strong>, ever. Printing continues after the pool opens, near the pool price.</p></div>
+          <div class="rule"><span class="tick">◆</span><p><strong>2% tax on buys and sells</strong> — 1% burned, 1% to marketing. Printing and normal transfers: 0%.</p></div>
+        </div>
+
+        <div class="faq">
+          <details>
+            <summary>Is the first print free?</summary>
+            <p>Yes. Every Binance Agentic ID gets one free print — you only pay the small network gas fee. A free print pays 40% of the stage&rsquo;s coin value.</p>
+          </details>
+          <details>
+            <summary>What do I need to print?</summary>
+            <p>A wallet on BNB Chain and a Binance Agentic ID. One ID can print up to 10 times.</p>
+          </details>
+          <details>
+            <summary>When can I trade $TALV?</summary>
+            <p>At print #10,000 the pool opens on its own with the saved BNB, and the LP is burned. From then on, anyone can buy and sell.</p>
+          </details>
+          <details>
+            <summary>How do I get a second free print?</summary>
+            <p>Invite 3 friends and wait for each of them to complete their first print. Your second print is free.</p>
+          </details>
+          <details>
+            <summary>Why do later coins pay less?</summary>
+            <p>Each stage holds 2,000 prints and pays a little less than the one before. Printing early pays more — every friend brings the next tier closer.</p>
+          </details>
+        </div>
+      </section>
+
+      <!-- 9 · supply · § 06 -->
+      <section id="tokenomics">
+        <div class="sec-head">
+          <div class="sec-tag"><span class="diamond">◆</span> Supply Ledger — Appendix · Mint · TV-01</div>
+          <h2>$TALV supply</h2>
+          <p>One fixed supply, struck once. No more can ever be made.</p>
+        </div>
+        <div class="supply-line">
+          <span class="big">10,000,000,000,000</span>
+          <span class="lbl">total supply · 10T $TALV</span>
+        </div>
+        <div class="tok-strip" aria-hidden="true">
+          <div class="tok-seg" style="width:50%; background: #c9c9c9;"></div>
+          <div class="tok-seg" style="width:20%; background: #8a8a8a;"></div>
+          <div class="tok-seg" style="width:20%; background: #4a4a4a;"></div>
+          <div class="tok-seg" style="width:10%; background: #2b2b2b;"></div>
+        </div>
+        <div class="tok-legend">
+          <div class="tok-item"><span class="sw" style="background: var(--gold-bright);"></span><span class="nm">Prints</span><span class="am">5T · 50%</span></div>
+          <div class="tok-item"><span class="sw" style="background: var(--gold);"></span><span class="nm">Pool (LP)</span><span class="am">2T · 20%</span></div>
+          <div class="tok-item"><span class="sw" style="background: #3f444b;"></span><span class="nm">Reserve</span><span class="am">2T · 20%</span></div>
+          <div class="tok-item"><span class="sw" style="background: #2b2b2b;"></span><span class="nm">Treasury</span><span class="am">1T · 10%</span></div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <div class="wrap">
+        <div class="mint-divider" aria-hidden="true" style="margin:0 0 22px;"><span class="diamond">◆</span><span class="line"></span><span>MINT · TV-01</span><span class="line"></span><span class="diamond">◆</span></div>
+        <div class="contracts">
+          <div class="contract-card">
+            <div class="label">$TALV Token</div>
+            <div class="addr">TBD — address and BscScan link publish here at deploy</div>
+          </div>
+          <div class="contract-card">
+            <div class="label">TalvioPrint</div>
+            <div class="addr">TBD — address and BscScan link publish here at deploy</div>
+          </div>
+        </div>
+        <div class="foot-line">
+          <span class="foot-brand"><span class="emblem"><span>T</span></span> TALVIO — the $TALV mint. BNB Chain.</span>
+          <span class="mono">SERIES 01 · 10,000 PRINTS</span>
+        </div>
+        <p class="disclaimer">Talvio is a print-to-token mint on BNB Chain. Printing is not an investment and $TALV carries no guaranteed value — read the rules in § 06 before you print. Contract addresses appear above, with BscScan links, once deployed.</p>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        var ROMAN = ["I", "II", "III", "IV", "V"];
+        var STAGES = [
+          { paid: 100, free: 40, cap: "200B" },
+          { paid: 90, free: 36, cap: "380B" },
+          { paid: 80, free: 32, cap: "540B" },
+          { paid: 70, free: 28, cap: "680B" },
+          { paid: 60, free: 24, cap: "800B" }
+        ];
+        var PRICE_BNB = 0.002;
+        var MAX_QTY = 10;
+        var currentStage = 0; // Stage I until launch reads say otherwise
+        var qty = 1;
+
+        function fmt(n) { return n.toLocaleString("en-US"); }
+        function pad4(n) { var s = String(n); while (s.length < 4) s = "0" + s; return s; }
+        function stageOfSerial(serial) { return Math.min(4, Math.floor((serial - 1) / 2000)); }
+
+        /* ----- mint press: drag to rotate ----- */
+        var viewport = document.getElementById("press-viewport");
+        var press3d = document.getElementById("press-3d");
+        var angle = -14, dragging = false, lastX = 0;
+        function applyAngle() {
+          press3d.style.transform = "rotateY(" + angle + "deg)";
+        }
+        applyAngle();
+        viewport.addEventListener("pointerdown", function (e) {
+          dragging = true; lastX = e.clientX;
+          viewport.setPointerCapture(e.pointerId);
+        });
+        viewport.addEventListener("pointermove", function (e) {
+          if (!dragging) return;
+          angle += (e.clientX - lastX) * 0.55;
+          lastX = e.clientX;
+          if (angle > 55) angle = 55;
+          if (angle < -55) angle = -55;
+          applyAngle();
+        });
+        function endDrag() { dragging = false; }
+        viewport.addEventListener("pointerup", endDrag);
+        viewport.addEventListener("pointercancel", endDrag);
+
+        /* ----- mint press: coin striking ----- */
+        var dropCoin = document.getElementById("drop-coin");
+        var trayCoins = document.getElementById("tray-coins");
+        var coinCountEl = document.getElementById("coin-count");
+        var wheel = document.getElementById("press-wheel");
+        var struck = 0;
+        var strikeTimer = null;
+
+        function renderTray(n) {
+          var xs = [105, 135, 165, 195, 225];
+          var out = "";
+          for (var i = 0; i < n; i++) {
+            var row = i < 5 ? 0 : 1;
+            var cx = xs[i % 5] + (row ? 7 : 0);
+            var cy = row ? 274 : 291;
+            out += '<circle cx="' + cx + '" cy="' + cy + '" r="10" fill="url(#blankGold)" stroke="#3a3f46" stroke-width="1.2"/>' +
+                   '<circle cx="' + cx + '" cy="' + cy + '" r="6.4" fill="none" stroke="rgba(0,0,0,.55)" stroke-width="1"/>';
+          }
+          trayCoins.innerHTML = out;
+          coinCountEl.textContent = n;
+        }
+
+        function strike(target) {
+          if (target > MAX_QTY) target = MAX_QTY;
+          if (target < 1) target = 1;
+          wheel.classList.remove("spinning");
+          dropCoin.classList.remove("dropping");
+          void wheel.getBoundingClientRect().width;
+          wheel.classList.add("spinning");
+          dropCoin.classList.add("dropping");
+          if (strikeTimer) window.clearTimeout(strikeTimer);
+          strikeTimer = window.setTimeout(function () {
+            dropCoin.classList.remove("dropping");
+            wheel.classList.remove("spinning");
+            struck = target;
+            renderTray(struck);
+          }, 740);
+        }
+        renderTray(0);
+
+        var pressPrint = document.getElementById("press-print");
+        pressPrint.addEventListener("pointerdown", function (e) { e.stopPropagation(); });
+        pressPrint.addEventListener("click", function (e) {
+          e.stopPropagation();
+          var target = struck < qty ? qty : Math.min(MAX_QTY, struck + 1);
+          strike(target);
+        });
+
+        /* ----- tabs ----- */
+        var tabPrint = document.getElementById("tab-print");
+        var tabAcct = document.getElementById("tab-acct");
+        var panelPrint = document.getElementById("panel-print");
+        var panelAcct = document.getElementById("panel-acct");
+        function selectTab(which) {
+          var print = which === "print";
+          tabPrint.setAttribute("aria-selected", print ? "true" : "false");
+          tabAcct.setAttribute("aria-selected", print ? "false" : "true");
+          panelPrint.hidden = !print;
+          panelAcct.hidden = print;
+        }
+        tabPrint.addEventListener("click", function () { selectTab("print"); });
+        tabAcct.addEventListener("click", function () { selectTab("acct"); });
+
+        /* ----- print settings ----- */
+        var qtyDisplay = document.getElementById("qty-display");
+        var psBreakdown = document.getElementById("ps-breakdown");
+        var psReceive = document.getElementById("ps-receive");
+        var psTotal = document.getElementById("ps-total");
+        var btnMinus = document.getElementById("qty-minus");
+        var btnPlus = document.getElementById("qty-plus");
+
+        function renderPrint() {
+          var st = STAGES[currentStage];
+          var paidCount = qty - 1;
+          qtyDisplay.textContent = qty;
+          psBreakdown.textContent = paidCount === 0 ? "1 free" : "1 free + " + paidCount + " paid";
+          var receive = st.free * 1000000 + paidCount * st.paid * 1000000;
+          psReceive.textContent = fmt(receive) + " $TALV";
+          psTotal.textContent = paidCount === 0
+            ? "0 BNB · free"
+            : (PRICE_BNB * paidCount).toFixed(3) + " BNB";
+          btnMinus.disabled = qty <= 1;
+          btnPlus.disabled = qty >= MAX_QTY;
+        }
+        btnMinus.addEventListener("click", function () { if (qty > 1) { qty--; renderPrint(); strike(qty); } });
+        btnPlus.addEventListener("click", function () { if (qty < MAX_QTY) { qty++; renderPrint(); strike(qty); } });
+        renderPrint();
+
+        /* ----- connect (pre-launch: honest note, no fake success) ----- */
+        var launchNote = document.getElementById("launch-note");
+        document.getElementById("btn-connect").addEventListener("click", function () {
+          launchNote.textContent = "The mint opens at launch. This button connects your wallet then.";
+          launchNote.classList.add("warn");
+        });
+
+        /* ----- print with AI ----- */
+        var btnAi = document.getElementById("btn-ai");
+        var aiBox = document.getElementById("ai-box");
+        btnAi.addEventListener("click", function () {
+          var open = aiBox.hidden;
+          aiBox.hidden = !open;
+          btnAi.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+        var btnCopy = document.getElementById("btn-copy");
+        var copyDone = document.getElementById("copy-done");
+        btnCopy.addEventListener("click", function () {
+          var text = document.getElementById("agent-prompt").textContent;
+          function done() {
+            copyDone.hidden = false;
+            setTimeout(function () { copyDone.hidden = true; }, 2200);
+          }
+          function fallback() {
+            var ta = document.createElement("textarea");
+            ta.value = text; document.body.appendChild(ta); ta.select();
+            try { document.execCommand("copy"); done(); } catch (e) {}
+            document.body.removeChild(ta);
+          }
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(done, fallback);
+          } else { fallback(); }
+        });
+
+        /* ----- tiers: numbered cards, chart, economy table, explorer ----- */
+        var tierCardsWrap = document.getElementById("tier-cards");
+        var stageDetail = document.getElementById("stage-detail");
+        var econBody = document.getElementById("econ-body");
+        var dots = document.querySelectorAll("#step-dots circle");
+        var selectedStage = 0;
+
+        STAGES.forEach(function (st, i) {
+          var card = document.createElement("button");
+          card.type = "button";
+          card.className = "tier-card" + (i === 0 ? " first" : "");
+          card.setAttribute("aria-pressed", i === 0 ? "true" : "false");
+          card.setAttribute("aria-label", "Tier " + ROMAN[i] + ", prints " + fmt(i * 2000 + 1) + " to " + fmt(i * 2000 + 2000));
+          card.innerHTML =
+            '<span class="tc-num">0' + (i + 1) + '</span>' +
+            '<span class="tc-name" style="display:block;">Tier ' + ROMAN[i] + '</span>' +
+            '<span class="tc-range" style="display:block;">SERIALS ' + fmt(i * 2000 + 1) + "–" + fmt(i * 2000 + 2000) + '</span>' +
+            '<span class="tc-face" style="display:block;">Paid <span class="mono">' + st.paid + 'M $TALV</span><br/>Free <span class="mono free">' + st.free + 'M $TALV</span></span>' +
+            '<span class="tc-badge">' + (i === 0 ? "FIRST PRINT FREE" : "0.002 BNB / PRINT") + '</span>';
+          card.addEventListener("click", function () { selectStage(i, true); });
+          tierCardsWrap.appendChild(card);
+
+          var row = document.createElement("div");
+          row.className = "drow econ" + (i === 0 ? " sel" : "");
+          row.setAttribute("role", "row");
+          row.innerHTML =
+            '<span class="st">Tier ' + ROMAN[i] + '</span>' +
+            '<span class="num">' + fmt(st.paid * 1000000) + ' $TALV</span>' +
+            '<span class="num free">' + fmt(st.free * 1000000) + ' $TALV</span>' +
+            '<span class="num">0.002 BNB</span>';
+          econBody.appendChild(row);
+        });
+
+        var exSlider = document.getElementById("ex-slider");
+        var exSerial = document.getElementById("ex-serial");
+        var exInfo = document.getElementById("ex-info");
+
+        function renderExplorer() {
+          var serial = parseInt(exSlider.value, 10);
+          var st = STAGES[stageOfSerial(serial)];
+          exSerial.textContent = "Serial #" + pad4(serial);
+          exInfo.innerHTML = "Stage " + ROMAN[stageOfSerial(serial)] +
+            ' · paid coin <span class="mono">' + st.paid + 'M $TALV</span>' +
+            ' · free coin <span class="mono">' + st.free + 'M $TALV</span>';
+        }
+
+        function selectStage(i, moveSlider) {
+          selectedStage = i;
+          var cards = tierCardsWrap.querySelectorAll(".tier-card");
+          for (var b = 0; b < cards.length; b++) {
+            cards[b].setAttribute("aria-pressed", b === i ? "true" : "false");
+          }
+          var rows = econBody.querySelectorAll(".drow");
+          for (var r = 0; r < rows.length; r++) {
+            rows[r].classList.toggle("sel", r === i);
+          }
+          for (var d = 0; d < dots.length; d++) {
+            dots[d].setAttribute("fill", d === i ? "#c9c9c9" : "#0a0a0a");
+            dots[d].setAttribute("r", d === i ? "8" : "6");
+          }
+          var st = STAGES[i];
+          stageDetail.innerHTML = "<strong>Tier " + ROMAN[i] + "</strong> — prints " +
+            fmt(i * 2000 + 1) + " to " + fmt(i * 2000 + 2000) +
+            '. Paid print <span class="mono">' + st.paid + 'M $TALV</span>' +
+            ' · free print <span class="mono">' + st.free + 'M $TALV</span>' +
+            ' · paid cap so far <span class="mono">' + st.cap + " $TALV</span>.";
+          if (moveSlider) {
+            exSlider.value = i * 2000 + 1;
+            renderExplorer();
+          }
+        }
+        exSlider.addEventListener("input", function () {
+          renderExplorer();
+          selectStage(stageOfSerial(parseInt(exSlider.value, 10)), false);
+        });
+        selectStage(0, false);
+        renderExplorer();
+
+        /* ----- ledger fields: golden-angle spiral of the 10,000-print schedule ----- */
+        var TIER_COLORS = ["#e8e8e8", "#b5b5b5", "#8a8a8a", "#5c5c5c", "#383838"];
+        var TOTAL_PRINTS = 10000;
+        var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        var legend = document.getElementById("field-legend");
+        if (legend) {
+          var lh = "";
+          for (var li = 0; li < 5; li++) {
+            lh += '<span><span class="sw" style="background:' + TIER_COLORS[li] + '"></span>Tier ' + ROMAN[li] + " · " + fmt(li * 2000 + 1) + "–" + fmt(li * 2000 + 2000) + "</span>";
+          }
+          legend.innerHTML = lh;
+        }
+
+        function spiralPoints(w, h) {
+          var pts = [];
+          var cx = w / 2, cy = h / 2;
+          var R = Math.min(w, h) / 2 - 8;
+          var GA = 2.399963229728653; /* golden angle, radians */
+          for (var i = 0; i < TOTAL_PRINTS; i++) {
+            var r = R * Math.sqrt((i + 0.5) / TOTAL_PRINTS);
+            var t = i * GA;
+            pts.push({ x: cx + r * Math.cos(t), y: cy + r * Math.sin(t), tier: stageOfSerial(i + 1) });
+          }
+          return pts;
+        }
+        function setupCanvas(cv, cssH) {
+          var dpr = Math.min(2, window.devicePixelRatio || 1);
+          var w = cv.clientWidth || cv.parentElement.clientWidth || 600;
+          cv.width = Math.round(w * dpr);
+          cv.height = Math.round(cssH * dpr);
+          cv.style.height = cssH + "px";
+          var ctx = cv.getContext("2d");
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          return { ctx: ctx, w: w, h: cssH };
+        }
+        function fieldHeight(w) { return w < 560 ? 300 : 380; }
+        function drawDot(ctx, p, rad) {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, rad, 0, 6.2832);
+          ctx.fillStyle = TIER_COLORS[p.tier];
+          ctx.fill();
+        }
+
+        /* FIG. 1 — hero print field: draws the schedule in print order */
+        var printField = document.getElementById("print-field");
+        var pfPts = null;
+        function drawPrintField(animate) {
+          if (!printField) return;
+          var s = setupCanvas(printField, fieldHeight(printField.clientWidth));
+          pfPts = spiralPoints(s.w, s.h);
+          var rad = Math.max(1.1, Math.min(s.w, s.h) / 260);
+          if (!animate || reduceMotion) {
+            for (var i = 0; i < pfPts.length; i++) drawDot(s.ctx, pfPts[i], rad);
+            return;
+          }
+          var idx = 0, CHUNK = 450;
+          (function step() {
+            var end = Math.min(TOTAL_PRINTS, idx + CHUNK);
+            for (; idx < end; idx++) drawDot(s.ctx, pfPts[idx], rad);
+            if (idx < TOTAL_PRINTS) requestAnimationFrame(step);
+          })();
+        }
+        drawPrintField(true);
+
+        /* FIG. 2 — aurora field explorer: hover/tap a point, neighbours light up */
+        var auroraField = document.getElementById("aurora-field");
+        var fieldReadout = document.getElementById("field-readout");
+        var afPts = null, afBase = null, afCtx = null, afRad = 1.5;
+        function drawAuroraBase() {
+          if (!auroraField) return;
+          var s = setupCanvas(auroraField, fieldHeight(auroraField.clientWidth));
+          afCtx = s.ctx;
+          afPts = spiralPoints(s.w, s.h);
+          afRad = Math.max(1.1, Math.min(s.w, s.h) / 260);
+          afBase = document.createElement("canvas");
+          afBase.width = auroraField.width; afBase.height = auroraField.height;
+          var bctx = afBase.getContext("2d");
+          bctx.setTransform(Math.min(2, window.devicePixelRatio || 1), 0, 0, Math.min(2, window.devicePixelRatio || 1), 0, 0);
+          for (var i = 0; i < afPts.length; i++) drawDot(bctx, afPts[i], afRad);
+          afCtx.clearRect(0, 0, s.w, s.h);
+          afCtx.drawImage(afBase, 0, 0, s.w, s.h);
+        }
+        drawAuroraBase();
+
+        function auroraPick(clientX, clientY) {
+          if (!afPts || !afCtx) return;
+          var rect = auroraField.getBoundingClientRect();
+          var mx = clientX - rect.left, my = clientY - rect.top;
+          var best = -1, bestD = 1e9;
+          for (var i = 0; i < afPts.length; i++) {
+            var dx = afPts[i].x - mx, dy = afPts[i].y - my;
+            var d = dx * dx + dy * dy;
+            if (d < bestD) { bestD = d; best = i; }
+          }
+          if (best < 0 || bestD > 30 * 30) return;
+          var p = afPts[best];
+          var serial = best + 1;
+          var st = STAGES[p.tier];
+          afCtx.clearRect(0, 0, rect.width, rect.height);
+          afCtx.drawImage(afBase, 0, 0, rect.width, rect.height);
+          afCtx.save();
+          afCtx.globalAlpha = 0.9;
+          for (var j = 0; j < afPts.length; j++) {
+            var q = afPts[j];
+            var ddx = q.x - p.x, ddy = q.y - p.y;
+            if (ddx * ddx + ddy * ddy < 34 * 34 && j !== best) drawDot(afCtx, q, afRad + 1.1);
+          }
+          afCtx.restore();
+          afCtx.beginPath();
+          afCtx.arc(p.x, p.y, afRad + 3.4, 0, 6.2832);
+          afCtx.fillStyle = "#ffffff";
+          afCtx.fill();
+          afCtx.beginPath();
+          afCtx.arc(p.x, p.y, afRad + 7.5, 0, 6.2832);
+          afCtx.strokeStyle = TIER_COLORS[p.tier];
+          afCtx.lineWidth = 1.6;
+          afCtx.stroke();
+          if (fieldReadout) {
+            fieldReadout.innerHTML = "Print Nº <strong>" + fmt(serial) + "</strong> · Tier <strong>" + ROMAN[p.tier] +
+              '</strong> · Face <span class="gold">' + fmt(st.paid * 1000000) + ' $TALV</span> paid · ' +
+              '<span class="gold">' + fmt(st.free * 1000000) + " $TALV</span> free";
+          }
+          exSlider.value = serial;
+          renderExplorer();
+          selectStage(p.tier, false);
+        }
+        if (auroraField) {
+          auroraField.addEventListener("pointermove", function (e) { auroraPick(e.clientX, e.clientY); });
+          auroraField.addEventListener("pointerdown", function (e) { auroraPick(e.clientX, e.clientY); });
+        }
+
+        var resizeTimer = null;
+        window.addEventListener("resize", function () {
+          if (resizeTimer) window.clearTimeout(resizeTimer);
+          resizeTimer = window.setTimeout(function () { drawPrintField(false); drawAuroraBase(); }, 220);
+        });
+
+        /* ----- print checker: pure schedule math, read-only ----- */
+        var checkInput = document.getElementById("check-input");
+        var checkOut = document.getElementById("check-out");
+        var btnCheck = document.getElementById("btn-check");
+        function runCheck() {
+          var v = parseInt(checkInput.value, 10);
+          if (!v || v < 1) {
+            checkOut.textContent = "Enter a serial number — 1 is the very first print.";
+            return;
+          }
+          if (v > TOTAL_PRINTS) {
+            checkOut.innerHTML = "Print <strong>#" + fmt(v) + "</strong> sits past the first issue. The pool opens at print #10,000; printing then continues near the pool price, up to 211,000 prints in total.";
+            return;
+          }
+          var t = stageOfSerial(v);
+          var st = STAGES[t];
+          checkOut.innerHTML = "Print <strong>#" + fmt(v) + "</strong> · Tier " + ROMAN[t] +
+            ' · <span class="mono">' + fmt(st.paid * 1000000) + ' $TALV</span> paid / <span class="mono">' +
+            fmt(st.free * 1000000) + ' $TALV</span> free · fee <span class="mono">0.002 BNB</span> · pool opens at #10,000';
+        }
+        if (btnCheck) btnCheck.addEventListener("click", runCheck);
+        if (checkInput) checkInput.addEventListener("keydown", function (e) { if (e.key === "Enter") runCheck(); });
+
+        /* ----- coin specimen: one plate per tier ----- */
+        var SPEC_COLORS = [
+          ["#454a51", "#1d1f22", "#0c0c0d"],
+          ["#3d4148", "#1a1c1f", "#0b0b0c"],
+          ["#363a40", "#17181b", "#0a0a0b"],
+          ["#2f3339", "#141518", "#090909"],
+          ["#282b30", "#111214", "#080808"]
+        ];
+        var specBtns = document.getElementById("spec-btns");
+        var specCoin = document.getElementById("spec-coin");
+        var specNo = document.getElementById("spec-no");
+        var specTier = document.getElementById("spec-tier");
+        var specRange = document.getElementById("spec-range");
+        var specFace = document.getElementById("spec-face");
+
+        function renderSpecimen(i) {
+          var st = STAGES[i];
+          var c = SPEC_COLORS[i];
+          var first = i * 2000 + 1;
+          var svg =
+            '<svg viewBox="0 0 300 300" role="img" aria-label="Specimen coin for Tier ' + ROMAN[i] + '">' +
+            "<defs>" +
+            '<radialGradient id="spFace" cx="0.35" cy="0.3" r="0.95">' +
+            '<stop offset="0" stop-color="' + c[0] + '"/>' +
+            '<stop offset="0.48" stop-color="' + c[1] + '"/>' +
+            '<stop offset="1" stop-color="' + c[2] + '"/></radialGradient>' +
+            '<linearGradient id="spRim" x1="0" y1="0" x2="1" y2="1">' +
+            '<stop offset="0" stop-color="' + c[0] + '"/>' +
+            '<stop offset="0.5" stop-color="' + c[1] + '"/>' +
+            '<stop offset="1" stop-color="' + c[2] + '"/></linearGradient>' +
+            '<path id="spArc" d="M 62 150 A 88 88 0 0 1 238 150" fill="none"/></defs>' +
+            '<circle cx="150" cy="158" r="112" fill="#0e0e0f"/>' +
+            '<circle cx="150" cy="153" r="112" fill="#17181a"/>' +
+            '<circle cx="150" cy="151" r="113" fill="none" stroke="#2e3136" stroke-width="5" stroke-dasharray="3.5 4.5"/>' +
+            '<circle cx="150" cy="150" r="112" fill="url(#spFace)" stroke="url(#spRim)" stroke-width="4"/>' +
+            '<circle cx="150" cy="150" r="99" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.6"/>' +
+            '<circle cx="150" cy="150" r="94" fill="none" stroke="rgba(0,0,0,.45)" stroke-width="1.6"/>' +
+            '<circle cx="150" cy="149" r="76" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="1.2"/>' +
+            '<circle cx="150" cy="151" r="76" fill="none" stroke="rgba(0,0,0,.35)" stroke-width="1.2"/>' +
+            '<text font-family="\'Bebas Neue\', sans-serif" font-size="16" letter-spacing="6" fill="#a7aeb6">' +
+            '<textPath href="#spArc" startOffset="50%" text-anchor="middle">TALVIO</textPath></text>' +
+            '<path fill-rule="evenodd" fill="rgba(0,0,0,.5)" transform="translate(152 148) scale(1.9) translate(-24 -24)" d="M4 6 H44 V15 H29 V33 H35 V42 H13 V33 H19 V15 H4 Z M24 7.8 L26.8 10.5 L24 13.2 L21.2 10.5 Z"/>' +
+            '<path fill-rule="evenodd" fill="rgba(255,255,255,.45)" transform="translate(148 141) scale(1.9) translate(-24 -24)" d="M4 6 H44 V15 H29 V33 H35 V42 H13 V33 H19 V15 H4 Z M24 7.8 L26.8 10.5 L24 13.2 L21.2 10.5 Z"/>' +
+            '<path fill-rule="evenodd" fill="#d6d9dd" transform="translate(150 144) scale(1.9) translate(-24 -24)" d="M4 6 H44 V15 H29 V33 H35 V42 H13 V33 H19 V15 H4 Z M24 7.8 L26.8 10.5 L24 13.2 L21.2 10.5 Z"/>' +
+            '<path d="M150 192 l4 4 -4 4 -4 -4 Z" fill="#a7aeb6"/>' +
+            '<text x="150" y="216" text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-size="8.5" font-weight="600" letter-spacing="2.5" fill="#a7aeb6">MINT · TV-01</text>' +
+            '<text x="150" y="242" text-anchor="middle" font-family="\'Bebas Neue\', sans-serif" font-size="21" letter-spacing="2" fill="#a7aeb6">' + st.paid + 'M $TALV</text>' +
+            "</svg>";
+          specCoin.innerHTML = svg;
+          specNo.textContent = "COIN Nº " + pad4(first);
+          specTier.textContent = "TIER " + ROMAN[i];
+          specRange.textContent = "SERIALS " + fmt(first) + "–" + fmt(first + 1999);
+          specFace.textContent = "FACE " + st.paid + "M $TALV · FREE " + st.free + "M";
+          var btns = specBtns.querySelectorAll(".spec-btn");
+          for (var b = 0; b < btns.length; b++) {
+            btns[b].setAttribute("aria-pressed", b === i ? "true" : "false");
+          }
+        }
+        if (specBtns && specCoin) {
+          STAGES.forEach(function (st, i) {
+            var b = document.createElement("button");
+            b.type = "button";
+            b.className = "spec-btn";
+            b.setAttribute("aria-pressed", i === 0 ? "true" : "false");
+            b.textContent = "Tier " + ROMAN[i];
+            b.addEventListener("click", function () { renderSpecimen(i); });
+            specBtns.appendChild(b);
+          });
+          renderSpecimen(0);
+        }
+      })();
+    </script>
+  </body>
+</html>
