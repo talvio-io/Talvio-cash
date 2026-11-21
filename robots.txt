@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# Machine-readable docs for AI agents:
+# https://talvio.id/llms.txt
+# https://talvio.id/agents.txt
