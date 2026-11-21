@@ -954,7 +954,7 @@
                 <button class="btn-ai" id="btn-ai" type="button" aria-expanded="false" aria-controls="agent-box">Print with AI</button>
               </div>
               <div class="agent-box" id="agent-box" hidden>
-                <p class="agent-prompt">Print $TALVIO on Talvio with my wallet. First print is free, then 0.002 BNB each.<br/>Use my Binance Agentic ID — max 10 prints per ID.<br/>Print 1 at the current stage and report the $TALVIO I receive.<br/>Stop and ask me before printing more.</p>
+                <p class="agent-prompt">Print $TALVIO for me — call print(uint256,address) on TalvioPrint 0xC433c77ACF8e5724e690DCbcf4c820Ed63FFd533, BNB Chain (56).<br/>Arguments: qty 1, referrer 0x0000000000000000000000000000000000000000, value 0 BNB — my first print is FREE (my wallet holds a Binance Agentic ID).<br/>$TALVIO token: 0xD16a3Ce432c7256F8837E81aF2007C16Ac4E7C4D. Paid prints after the free one cost 0.002 BNB each, max 10 prints per wallet.<br/>Execute now, then report the tx hash and the $TALVIO I receive. Stop and ask me before printing more.</p>
                 <p class="agent-addr">TalvioPrint · 0xC433c77ACF8e5724e690DCbcf4c820Ed63FFd533<br/>$TALVIO Token · 0xD16a3Ce432c7256F8837E81aF2007C16Ac4E7C4D</p>
                 <div class="agent-actions">
                   <button class="btn-copy" id="btn-copy" type="button">Copy prompt</button>
@@ -1268,7 +1268,7 @@
           quotePrint: "0x7764126f",
           priceForPrint: "0x3021b7e5",
           tierFor: "0x925ab402",
-          totalPrints: "0xa2309ff8",
+          totalPrints: "0x6409bb89",
           claimJackpot: "0x26ec3eed",
           currentJackpotRound: "0xfe071e02",
           currentTop3: "0x6d1b00ae",
@@ -1508,8 +1508,8 @@
           if (!hex || hex.length < 66) return out;
           var words = Math.floor((hex.length - 2) / 64);
           var i, base, len;
-          if (words >= 6 && isAddrWord(hex, 0) && isAddrWord(hex, 1) && isAddrWord(hex, 2)) {
-            for (i = 0; i < 3; i++) out.push({ addr: wordAddr(hex, i), count: Number(wordUint(hex, 3 + i)) });
+          if (words >= 6 && isAddrWord(hex, 0) && isAddrWord(hex, 2) && isAddrWord(hex, 4)) {
+            for (i = 0; i < 3; i++) out.push({ addr: wordAddr(hex, i * 2), count: Number(wordUint(hex, i * 2 + 1)) });
             return out;
           }
           if (words >= 2 && wordUint(hex, 0) === BigInt(64)) {
@@ -1589,7 +1589,7 @@
         var jpClaimInput = document.getElementById("jp-claim-round");
         var btnClaim = document.getElementById("btn-claim");
         var jpStatus = document.getElementById("jp-status");
-        var AGENT_PROMPT = "Print $TALVIO on Talvio with my wallet. First print is free, then 0.002 BNB each.\nUse my Binance Agentic ID — max 10 prints per ID.\nPrint 1 at the current stage and report the $TALVIO I receive.\nStop and ask me before printing more.";
+        var AGENT_PROMPT = "Print $TALVIO for me — call print(uint256,address) on TalvioPrint 0xC433c77ACF8e5724e690DCbcf4c820Ed63FFd533, BNB Chain (56).\nArguments: qty 1, referrer 0x0000000000000000000000000000000000000000, value 0 BNB — my first print is FREE (my wallet holds a Binance Agentic ID).\n$TALVIO token: 0xD16a3Ce432c7256F8837E81aF2007C16Ac4E7C4D. Paid prints after the free one cost 0.002 BNB each, max 10 prints per wallet.\nExecute now, then report the tx hash and the $TALVIO I receive. Stop and ask me before printing more.";
 
         function localCostWei() {
           var paidCount = hasFree ? Math.max(0, qty - 1) : qty;
@@ -1597,7 +1597,7 @@
         }
         function quoteCost() {
           if (!account) return Promise.resolve(localCostWei());
-          return ethCall(PRINT_ADDR, SEL.quotePrint + encUint(qty) + encAddr(referrer), account)
+          return ethCall(PRINT_ADDR, SEL.quotePrint + encUint(qty) + encAddr(account), account)
             .then(function (res) {
               var cost = wordUint(res, 0);
               var cap = BigInt(qty) * BigInt("2000000000000000");
@@ -1608,7 +1608,7 @@
         }
         function refreshFree() {
           if (!account) return;
-          ethCall(PRINT_ADDR, SEL.quotePrint + encUint(1) + encAddr(referrer), account).then(function (res) {
+          ethCall(PRINT_ADDR, SEL.quotePrint + encUint(1) + encAddr(account), account).then(function (res) {
             hasFree = wordUint(res, 0) === BigInt(0);
             renderPrint();
             refreshAccount();
