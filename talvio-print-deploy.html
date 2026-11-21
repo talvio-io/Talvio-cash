@@ -43,7 +43,9 @@
     <h2><span class="n">01</span>Connect wallet</h2>
     <p>Connect the wallet that should <b>own</b> both contracts. It deploys them, keeps <b>3T $TALV (2T LP + 1T treasury)</b>, and is the only wallet that can change the project wallet. Must be on <b>BNB Chain (chain 56)</b>.</p>
     <button class="btn" id="btn-connect" type="button">Connect Wallet</button>
+    <button class="btn" id="btn-copy-link" type="button">Copy page link</button>
     <p id="wallet-status">Not connected.</p>
+    <p class="sub">Browser biasa (Chrome / Telegram) tidak punya wallet — tombol Connect tidak akan bisa jalan dari sana. Buka link halaman ini di dalam aplikasi wallet (MetaMask, Trust Wallet, OKX, atau Binance Wallet — menu Browser / dApp), lalu tekan Connect Wallet di sana.</p>
   </section>
 
   <section class="step" id="step-token">
@@ -130,15 +132,35 @@ function setPill(id, text, cls) {
 const fmt = (n) => ethers.formatEther(n);
 
 async function connect() {
-  if (!window.ethereum) { log("No wallet found (window.ethereum missing).", "err"); return; }
-  provider = new ethers.BrowserProvider(window.ethereum);
-  const net = await provider.getNetwork();
-  if (net.chainId !== 56n) { log("Wrong network: switch to BNB Chain (56). Current: " + net.chainId, "err"); return; }
-  signer = await provider.getSigner();
-  signerAddr = await signer.getAddress();
-  $("wallet-status").textContent = "Connected: " + signerAddr + " (BNB Chain)";
-  log("Connected " + signerAddr, "ok");
-  $("btn-deploy-token").disabled = false;
+  if (typeof ethers === "undefined") { $("wallet-status").textContent = "Wallet library failed to load — check your connection and reload the page."; log("ethers library missing (CDN failed).", "err"); return; }
+  if (!window.ethereum) {
+    $("wallet-status").textContent = "No wallet in this browser. Open this page inside your wallet app (MetaMask / Trust Wallet / OKX / Binance Wallet — Browser menu) and connect there.";
+    log("No wallet found (window.ethereum missing).", "err"); return;
+  }
+  try {
+    provider = new ethers.BrowserProvider(window.ethereum);
+    let net = await provider.getNetwork();
+    if (net.chainId !== 56n) {
+      log("Wrong network — trying to switch to BNB Chain (56)...", "");
+      try {
+        await window.ethereum.request({ method: "wallet_switchEthereumChain", params: [{ chainId: "0x38" }] });
+      } catch (sw) {
+        if (sw && sw.code === 4902) {
+          await window.ethereum.request({ method: "wallet_addEthereumChain", params: [{ chainId: "0x38", chainName: "BNB Smart Chain", nativeCurrency: { name: "BNB", symbol: "BNB", decimals: 18 }, rpcUrls: ["https://bsc-dataseed.binance.org/"], blockExplorerUrls: ["https://bscscan.com/"] }] });
+        } else { throw sw; }
+      }
+      net = await provider.getNetwork();
+      if (net.chainId !== 56n) { $("wallet-status").textContent = "Still not on BNB Chain (56). Switch your wallet network to BNB Chain and try again."; log("Still wrong network after switch: " + net.chainId, "err"); return; }
+    }
+    signer = await provider.getSigner();
+    signerAddr = await signer.getAddress();
+    $("wallet-status").textContent = "Connected: " + signerAddr + " (BNB Chain)";
+    log("Connected " + signerAddr, "ok");
+    $("btn-deploy-token").disabled = false;
+  } catch (e) {
+    $("wallet-status").textContent = "Connect failed: " + (e.shortMessage || e.message || "wallet rejected the request.");
+    log("Connect failed: " + (e.shortMessage || e.message), "err");
+  }
 }
 
 async function deployToken() {
@@ -238,6 +260,10 @@ async function setProject() {
 }
 
 $("btn-connect").addEventListener("click", connect);
+$("btn-copy-link").addEventListener("click", async () => {
+  try { await navigator.clipboard.writeText(location.href); $("wallet-status").textContent = "Link copied — paste it in your wallet app browser."; }
+  catch (e) { $("wallet-status").textContent = "Copy failed — long-press the address bar to copy the link."; }
+});
 $("btn-deploy-token").addEventListener("click", deployToken);
 $("btn-deploy-print").addEventListener("click", deployPrint);
 $("btn-wire").addEventListener("click", wireAndFund);
