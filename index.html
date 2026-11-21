@@ -624,7 +624,7 @@
           <span class="free-badge">First print free</span>
           <h1>Talvio</h1>
           <p class="sub">The first print is <em>free</em> for every Binance Agentic ID.</p>
-          <p class="small">Each print strikes one coin and pays $TALV to your wallet. Earlier tiers pay more.</p>
+          <p class="small">Each print will strike one coin and will pay $TALV to your wallet. Earlier tiers pay more.</p>
           <a class="btn-enter" href="#print-room">Enter the print room</a>
           <div class="hero-counters">
             <div class="hcount"><div class="n">— <span class="gold">/ 10,000</span></div><div class="l">Prints minted</div></div>
@@ -700,10 +700,10 @@
         </div>
       </div>
 
-      <!-- FIG. 1 · live print field — schedule preview -->
+      <!-- FIG. 1 · print field — schedule preview -->
       <figure class="field-plate" style="margin:0;">
         <div class="field-head">
-          <span class="fig-label">FIG. 1 · LIVE PRINT FIELD</span>
+          <span class="fig-label">FIG. 1 · PRINT FIELD</span>
           <span class="field-note">SCHEDULE PREVIEW — CONTRACT NOT LIVE YET</span>
         </div>
         <div class="field-counters">
@@ -738,12 +738,12 @@
       <div class="room" id="print-room">
         <div class="room-head">
           <div><div class="room-tag"><span class="diamond">◆</span> § 01 · Print — Mint · TV-01</div><h2>The print room</h2></div>
-          <span class="tag">TALVIO PRESS · SERIES 01 · BNB CHAIN</span>
+          <span class="tag">TALVIO PRESS · SERIES 01 · BNB CHAIN · PREVIEW</span>
         </div>
         <div class="room-grid">
           <div class="press-side">
             <div class="press-viewport" id="press-viewport" aria-label="Mint press — drag to rotate">
-              <div class="coin-chip">Coins in tray&nbsp;<span id="coin-count">0</span> / 10</div>
+              <div class="coin-chip">Demo tray&nbsp;<span id="coin-count">0</span> / 10 coins</div>
               <div class="press-3d" id="press-3d">
                 <svg width="330" height="352" viewBox="0 0 330 352" role="img" aria-label="A stylized coin mint press">
                   <defs>
@@ -868,7 +868,7 @@
                 </svg>
               </div>
             </div>
-            <p class="press-hint">Drag the press to spin it · tap PRINT on the machine to strike a coin</p>
+            <p class="press-hint">Preview press — drag to spin it · tap PRINT to strike a demo coin. No real coins yet; printing opens at launch.</p>
           </div>
 
           <div class="panel-side">
@@ -878,7 +878,7 @@
             </div>
 
             <div id="panel-print" role="tabpanel" aria-labelledby="tab-print">
-              <div class="panel-title">Print settings</div>
+              <div class="panel-title">Print settings — preview</div>
               <div class="set-row"><span class="k">Next serial number</span><span class="v" id="ps-serial">#0001</span></div>
               <div class="set-row"><span class="k">Issuance stage</span><span class="v" id="ps-stage">Stage I</span></div>
               <div class="set-row"><span class="k">Next coin pays</span><span class="v" id="ps-note">100M $TALV</span></div>
@@ -893,14 +893,14 @@
               <p class="qty-note">Max 10 prints per Agentic ID</p>
               <div class="set-row total"><span class="k">Total payment</span><span class="v" id="ps-total">0 BNB · free</span></div>
 
-              <button class="btn-connect" id="btn-connect" type="button">Connect wallet</button>
+              <button class="btn-connect" id="btn-connect" type="button">Connect wallet — at launch</button>
               <button class="btn-ai" id="btn-ai" type="button" aria-expanded="false" aria-controls="ai-box">Print with AI</button>
-              <p class="launch-note" id="launch-note">Printing opens at launch — connect unlocks then.</p>
+              <p class="launch-note" id="launch-note">Preview only — no real coins yet. Printing opens at launch; connect unlocks then.</p>
 
               <div class="ai-box" id="ai-box" hidden>
                 <pre id="agent-prompt">Print $TALV on Talvio with my wallet. First print is free, then 0.002 BNB each.
 Use my Binance Agentic ID — max 10 prints per ID.
-Print 1 now at the current stage and report the $TALV I receive.
+Once printing is live at launch, print 1 at the current stage and report the $TALV I receive.
 Stop and ask me before printing more.</pre>
                 <button class="btn-copy" id="btn-copy" type="button">Copy prompt</button>
                 <span class="copy-done" id="copy-done" hidden>Copied ✓</span>
@@ -919,7 +919,7 @@ Stop and ask me before printing more.</pre>
                 <div class="acct-cell"><div class="l">Paid</div><div class="n">0 BNB</div></div>
                 <div class="acct-cell"><div class="l">Tokens received</div><div class="n">0 $TALV</div></div>
               </div>
-              <p class="acct-note">Connect your wallet to view your prints.</p>
+              <p class="acct-note">Your prints will appear here after launch.</p>
             </div>
           </div>
         </div>
@@ -996,7 +996,7 @@ Stop and ask me before printing more.</pre>
             <input id="check-input" type="number" min="1" max="211000" step="1" placeholder="8412" inputmode="numeric" />
             <button class="btn-check" id="btn-check" type="button">Check print</button>
           </div>
-          <p class="checker-out" id="check-out">Enter any serial from 1 to 10,000 to read its tier, face value and fee.</p>
+          <p class="checker-out" id="check-out">Enter any serial from 1 to 211,000. Serials 1–10,000 show their tier, face value and fee; past 10,000 the pool is open and prints run near the pool price.</p>
           <p class="checker-note">PREVIEW CALCULATOR — IT COMPUTES THE PUBLISHED SCHEDULE. THE CONTRACT IS NOT LIVE YET, SO THE PRINT DOES NOT EXIST ON-CHAIN.</p>
         </div>
       </section>
@@ -1053,7 +1053,6 @@ Stop and ask me before printing more.</pre>
           <div class="ref-link-text" id="ref-link-text">Available after connecting</div>
         </div>
         <div class="ref-cta">
-          <a class="btn-enter quiet" href="#print-room">Get your invite link</a>
           <p>Connect in the print room at launch — your personal link appears here, ready to share.</p>
         </div>
         <div class="reward-cards">
@@ -1080,7 +1079,7 @@ Stop and ask me before printing more.</pre>
         <div class="sec-head">
           <div class="sec-tag"><span class="diamond">◆</span> § 06 · Pool — Mint · TV-01</div>
           <h2>Pool &amp; rules</h2>
-          <p>Set in the contract before launch. Nothing changes after.</p>
+          <p>Will be set in the contract at deploy. Nothing changes after.</p>
         </div>
         <div class="rules">
           <div class="rule"><span class="tick">◆</span><p><strong>The first print is free</strong> for every Binance Agentic ID.</p></div>
@@ -1120,7 +1119,7 @@ Stop and ask me before printing more.</pre>
         <div class="sec-head">
           <div class="sec-tag"><span class="diamond">◆</span> Supply Ledger — Appendix · Mint · TV-01</div>
           <h2>$TALV supply</h2>
-          <p>One fixed supply, struck once. No more can ever be made.</p>
+          <p>One fixed supply, will be struck once at deploy. No more can ever be made.</p>
         </div>
         <div class="supply-line">
           <span class="big">10,000,000,000,000</span>
