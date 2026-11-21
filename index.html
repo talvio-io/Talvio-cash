@@ -124,6 +124,15 @@
         background: rgba(10,10,10,.8);
       }
       .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px rgba(125,143,163,.16); flex-shrink: 0; }
+      .top-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+      .x-link {
+        display: inline-flex; align-items: center;
+        padding: 7px 2px; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--muted);
+        text-decoration: none; min-height: 2.25rem; white-space: nowrap;
+      }
+      .x-link:hover { color: var(--paper); text-decoration: underline; text-underline-offset: 3px; }
+      .foot-x { color: var(--muted); text-decoration: none; font-family: var(--mono); font-size: 12px; letter-spacing: .04em; white-space: nowrap; }
+      .foot-x:hover { color: var(--paper); text-decoration: underline; text-underline-offset: 3px; }
 
       /* ---------- hero ---------- */
       .hero {
@@ -614,7 +623,10 @@
 
       <div class="toprow">
         <div class="brand-mark"><span class="emblem" aria-hidden="true"><svg viewBox="0 0 48 48"><defs><radialGradient id="markFace" cx="0.38" cy="0.3" r="0.95"><stop offset="0" stop-color="#f4f6f8"/><stop offset=".55" stop-color="#ccd3da"/><stop offset="1" stop-color="#8d97a1"/></radialGradient><linearGradient id="markRim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f7f9fb"/><stop offset=".5" stop-color="#a7b0ba"/><stop offset="1" stop-color="#d6dce2"/></linearGradient></defs><circle cx="24" cy="24" r="23" fill="url(#markRim)"/><circle cx="24" cy="24" r="21.4" fill="none" stroke="#79828c" stroke-width="3.2" stroke-dasharray="2.4 2.1"/><circle cx="24" cy="24" r="18.8" fill="url(#markFace)" stroke="rgba(20,24,29,.4)" stroke-width=".8"/><path fill-rule="evenodd" transform="translate(24.5 25.4) scale(0.6) translate(-24 -24)" fill="rgba(255,255,255,.8)" d="M4 6 H44 V15 H29 V33 H35 V42 H13 V33 H19 V15 H4 Z M24 7.8 L26.8 10.5 L24 13.2 L21.2 10.5 Z"/><path fill-rule="evenodd" transform="translate(24 24.6) scale(0.6) translate(-24 -24)" fill="#2b3036" d="M4 6 H44 V15 H29 V33 H35 V42 H13 V33 H19 V15 H4 Z M24 7.8 L26.8 10.5 L24 13.2 L21.2 10.5 Z"/></svg></span><span class="brand-word">TALVIO</span><span class="brand-tag">MINT · TV-01</span></div>
-        <div class="status-chip"><span class="status-dot"></span> Launching soon — the press opens at launch</div>
+        <div class="top-actions">
+          <a class="x-link" href="https://x.com/Talviochain" target="_blank" rel="noopener noreferrer">X — @Talviochain</a>
+          <div class="status-chip"><span class="status-dot"></span> Launching soon — the press opens at launch</div>
+        </div>
       </div>
 
       <!-- 1 · hero · § 00 ledger -->
@@ -1156,6 +1168,7 @@ Stop and ask me before printing more.</pre>
         </div>
         <div class="foot-line">
           <span class="foot-brand"><span class="emblem" aria-hidden="true"><svg viewBox="0 0 48 48"><defs><radialGradient id="markFace2" cx="0.38" cy="0.3" r="0.95"><stop offset="0" stop-color="#f4f6f8"/><stop offset=".55" stop-color="#ccd3da"/><stop offset="1" stop-color="#8d97a1"/></radialGradient><linearGradient id="markRim2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f7f9fb"/><stop offset=".5" stop-color="#a7b0ba"/><stop offset="1" stop-color="#d6dce2"/></linearGradient></defs><circle cx="24" cy="24" r="23" fill="url(#markRim2)"/><circle cx="24" cy="24" r="21.4" fill="none" stroke="#79828c" stroke-width="3.2" stroke-dasharray="2.4 2.1"/><circle cx="24" cy="24" r="18.8" fill="url(#markFace2)" stroke="rgba(20,24,29,.4)" stroke-width=".8"/><path fill-rule="evenodd" transform="translate(24.5 25.4) scale(0.6) translate(-24 -24)" fill="rgba(255,255,255,.8)" d="M4 6 H44 V15 H29 V33 H35 V42 H13 V33 H19 V15 H4 Z M24 7.8 L26.8 10.5 L24 13.2 L21.2 10.5 Z"/><path fill-rule="evenodd" transform="translate(24 24.6) scale(0.6) translate(-24 -24)" fill="#2b3036" d="M4 6 H44 V15 H29 V33 H35 V42 H13 V33 H19 V15 H4 Z M24 7.8 L26.8 10.5 L24 13.2 L21.2 10.5 Z"/></svg></span> TALVIO — the $TALV mint. BNB Chain.</span>
+          <a class="foot-x" href="https://x.com/Talviochain" target="_blank" rel="noopener noreferrer">X — @Talviochain</a>
           <span class="mono">SERIES 01 · 10,000 PRINTS</span>
         </div>
         <p class="disclaimer">Talvio is a print-to-token mint on BNB Chain. Printing is not an investment and $TALV carries no guaranteed value — read the rules in § 06 before you print. Contract addresses appear above, with BscScan links, once deployed.</p>
