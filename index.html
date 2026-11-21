@@ -913,7 +913,7 @@
               <div class="set-row"><span class="k">Issuance stage</span><span class="v" id="ps-stage">Stage I</span></div>
               <div class="set-row"><span class="k">Next coin pays</span><span class="v" id="ps-note">100M $TALVIO</span></div>
               <div class="set-row"><span class="k">Price breakdown</span><span class="v gold" id="ps-breakdown">1 free</span></div>
-              <div class="set-row"><span class="k">Tokens to receive</span><span class="v gold" id="ps-receive">40,000,000 $TALVIO</span></div>
+              <div class="set-row"><span class="k">Tokens to receive</span><span class="v gold" id="ps-receive">20,000,000 $TALVIO</span></div>
               <div class="qty-row">
                 <span class="qty-label">Quantity</span>
                 <button class="qty-btn" id="qty-minus" type="button" aria-label="Decrease quantity">−</button>
@@ -1114,7 +1114,7 @@
         <div class="faq">
           <details>
             <summary>Is the first print free?</summary>
-            <p>Yes. Every Binance Agentic ID gets one free print — you only pay the small network gas fee. A free print pays 40% of the stage&rsquo;s coin value.</p>
+            <p>Yes. Every Binance Agentic ID gets one free print — you only pay the small network gas fee. A free print pays 20% of the stage&rsquo;s coin value.</p>
           </details>
           <details>
             <summary>What do I need to print?</summary>
@@ -1201,11 +1201,11 @@
       (function () {
         var ROMAN = ["I", "II", "III", "IV", "V"];
         var STAGES = [
-          { paid: 100, free: 40, cap: "200B" },
-          { paid: 90, free: 36, cap: "380B" },
-          { paid: 80, free: 32, cap: "540B" },
-          { paid: 70, free: 28, cap: "680B" },
-          { paid: 60, free: 24, cap: "800B" }
+          { paid: 100, free: 20, cap: "200B" },
+          { paid: 90, free: 18, cap: "380B" },
+          { paid: 80, free: 16, cap: "540B" },
+          { paid: 70, free: 14, cap: "680B" },
+          { paid: 60, free: 12, cap: "800B" }
         ];
         var PRICE_BNB = 0.002;
         var MAX_QTY = 10;
