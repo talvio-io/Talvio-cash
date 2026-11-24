@@ -11,14 +11,14 @@
     <meta name="description" content="Print $TALVIO coins. First print free for every Binance Agentic ID. BNB Chain." />
     <meta property="og:title" content="Talvio — Print $TALVIO" />
     <meta property="og:description" content="Print $TALVIO coins. First print free for every Binance Agentic ID. BNB Chain." />
-    <meta property="og:image" content="https://talvio.id/og-image.png" />
-    <meta property="og:url" content="https://talvio.id/" />
+    <meta property="og:image" content="https://talvio-io.github.io/Talvio-cash/og-image.png" />
+    <meta property="og:url" content="https://talvio-io.github.io/Talvio-cash/" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Talvio" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Talvio — Print $TALVIO" />
     <meta name="twitter:description" content="Print $TALVIO coins. First print free for every Binance Agentic ID. BNB Chain." />
-    <meta name="twitter:image" content="https://talvio.id/og-image.png" />
+    <meta name="twitter:image" content="https://talvio-io.github.io/Talvio-cash/og-image.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -954,7 +954,7 @@
                 <button class="btn-ai" id="btn-ai" type="button" aria-expanded="false" aria-controls="agent-box">Print with AI</button>
               </div>
               <div class="agent-box" id="agent-box" hidden>
-                <p class="agent-prompt">Print $TALVIO for me — call print(uint256,address) on TalvioPrint 0xC433c77ACF8e5724e690DCbcf4c820Ed63FFd533, BNB Chain (56).<br/>Arguments: qty 1, referrer 0x0000000000000000000000000000000000000000, value 0 BNB — my first print is FREE (my wallet holds a Binance Agentic ID).<br/>$TALVIO token: 0xD16a3Ce432c7256F8837E81aF2007C16Ac4E7C4D. Paid prints after the free one cost 0.002 BNB each, max 10 prints per wallet.<br/>Execute now, then report the tx hash and the $TALVIO I receive. Stop and ask me before printing more.</p>
+                <p class="agent-prompt">Print $TALVIO for me on TalvioPrint 0xC433c77ACF8e5724e690DCbcf4c820Ed63FFd533 (BNB Chain 56).<br/>STEP 1 — CHECK: confirm my wallet holds a Binance Agentic ID (registry 0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F, balanceOf &gt; 0); without one every print reverts — stop and report NO AGENT ID. Call quotePrint(qty, my wallet) and use the cost it returns as the transaction value — never assume 0.<br/>STEP 2 — PRINT: call print(qty, referrer), qty 1 first: at Stage I my free print pays 20,000,000 $TALVIO. Referrer: use the address from my referral link if I gave you one, otherwise 0x0000000000000000000000000000000000000000 — never drop a referrer I gave you. Paid prints cost 0.002 BNB each and pay 100,000,000 $TALVIO at Stage I (5x the free print), max 10 prints per wallet in total — ask me once before any paid print. Keep at least 0.005 BNB in my wallet for gas; if my BNB cannot cover the cost plus that buffer, report OPERATOR: TOP UP BNB BUFFER and stop.<br/>STEP 3 — REPORT: the tx hash, the $TALVIO I received, my new $TALVIO balance, my prints used (x / 10), and my referral link https://talvio-io.github.io/Talvio-cash/?ref=&lt;my wallet&gt; — 3 friends who complete a first print through it earn me a free second print.<br/>STEP 4 — JACKPOT: every 1,000 prints close a round paying 600M / 360M / 240M $TALVIO to the top 3 printers; whenever you run for me, check finished rounds (jackpotPrize) and claimJackpot(round) for any prize I won — value 0 BNB, no expiry.<br/>$TALVIO token: 0xD16a3Ce432c7256F8837E81aF2007C16Ac4E7C4D.</p>
                 <p class="agent-addr">TalvioPrint · 0xC433c77ACF8e5724e690DCbcf4c820Ed63FFd533<br/>$TALVIO Token · 0xD16a3Ce432c7256F8837E81aF2007C16Ac4E7C4D</p>
                 <div class="agent-actions">
                   <button class="btn-copy" id="btn-copy" type="button">Copy prompt</button>
@@ -1193,6 +1193,14 @@
           <button class="btn-check" id="btn-claim" type="button">Claim jackpot</button>
         </div>
         <p class="checker-out" id="jp-status" role="status">If you finished a round in the top 3, enter its round number and claim — the prize lands in the same wallet you printed with.</p>
+        <div class="agent-box" id="jp-agent-box">
+          <div class="panel-title">Or let your AI agent claim for you</div>
+          <p class="agent-prompt">Claim my Talvio jackpot prizes on TalvioPrint 0xC433c77ACF8e5724e690DCbcf4c820Ed63FFd533 (BNB Chain 56): for every finished round (round number below currentJackpotRound()), call roundWinners(round) and jackpotPrize(round, my wallet). If I am a winner with an unclaimed prize, call claimJackpot(round) with value 0 BNB — claiming costs gas only and prizes never expire. Prizes are 600,000,000 / 360,000,000 / 240,000,000 $TALVIO for 1st / 2nd / 3rd. Report every round you checked, each prize claimed with its tx hash, and my new $TALVIO balance. Do not print while claiming unless I asked you to.</p>
+          <div class="agent-actions">
+            <button class="btn-copy" id="btn-copy-jp" type="button">Copy claim prompt</button>
+            <span class="copied-note" id="copied-note-jp" hidden>Copied ✓</span>
+          </div>
+        </div>
       </section>
 
       <!-- 9 · supply · § 06 -->
@@ -1589,7 +1597,8 @@
         var jpClaimInput = document.getElementById("jp-claim-round");
         var btnClaim = document.getElementById("btn-claim");
         var jpStatus = document.getElementById("jp-status");
-        var AGENT_PROMPT = "Print $TALVIO for me — call print(uint256,address) on TalvioPrint 0xC433c77ACF8e5724e690DCbcf4c820Ed63FFd533, BNB Chain (56).\nArguments: qty 1, referrer 0x0000000000000000000000000000000000000000, value 0 BNB — my first print is FREE (my wallet holds a Binance Agentic ID).\n$TALVIO token: 0xD16a3Ce432c7256F8837E81aF2007C16Ac4E7C4D. Paid prints after the free one cost 0.002 BNB each, max 10 prints per wallet.\nExecute now, then report the tx hash and the $TALVIO I receive. Stop and ask me before printing more.";
+        var AGENT_PROMPT = "Print $TALVIO for me on TalvioPrint 0xC433c77ACF8e5724e690DCbcf4c820Ed63FFd533 (BNB Chain 56).\nSTEP 1 — CHECK: confirm my wallet holds a Binance Agentic ID (registry 0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F, balanceOf > 0); without one every print reverts — stop and report NO AGENT ID. Call quotePrint(qty, my wallet) and use the cost it returns as the transaction value — never assume 0.\nSTEP 2 — PRINT: call print(qty, referrer), qty 1 first: at Stage I my free print pays 20,000,000 $TALVIO. Referrer: use the address from my referral link if I gave you one, otherwise 0x0000000000000000000000000000000000000000 — never drop a referrer I gave you. Paid prints cost 0.002 BNB each and pay 100,000,000 $TALVIO at Stage I (5x the free print), max 10 prints per wallet in total — ask me once before any paid print. Keep at least 0.005 BNB in my wallet for gas; if my BNB cannot cover the cost plus that buffer, report OPERATOR: TOP UP BNB BUFFER and stop.\nSTEP 3 — REPORT: the tx hash, the $TALVIO I received, my new $TALVIO balance, my prints used (x / 10), and my referral link https://talvio-io.github.io/Talvio-cash/?ref=<my wallet> — 3 friends who complete a first print through it earn me a free second print.\nSTEP 4 — JACKPOT: every 1,000 prints close a round paying 600M / 360M / 240M $TALVIO to the top 3 printers; whenever you run for me, check finished rounds (jackpotPrize) and claimJackpot(round) for any prize I won — value 0 BNB, no expiry.\n$TALVIO token: 0xD16a3Ce432c7256F8837E81aF2007C16Ac4E7C4D.";
+        var JP_CLAIM_PROMPT = "Claim my Talvio jackpot prizes on TalvioPrint 0xC433c77ACF8e5724e690DCbcf4c820Ed63FFd533 (BNB Chain 56): for every finished round (round number below currentJackpotRound()), call roundWinners(round) and jackpotPrize(round, my wallet). If I am a winner with an unclaimed prize, call claimJackpot(round) with value 0 BNB — claiming costs gas only and prizes never expire. Prizes are 600,000,000 / 360,000,000 / 240,000,000 $TALVIO for 1st / 2nd / 3rd. Report every round you checked, each prize claimed with its tx hash, and my new $TALVIO balance. Do not print while claiming unless I asked you to.";
 
         function localCostWei() {
           var paidCount = hasFree ? Math.max(0, qty - 1) : qty;
@@ -1644,7 +1653,7 @@
               account = accs[0];
               btnConnect.textContent = shortAddr(account);
               setNote(launchNote, "Wallet connected — printing is live on BNB Chain.", false);
-              refLinkText.textContent = "https://talvio.id/?ref=" + account;
+              refLinkText.textContent = "https://talvio-io.github.io/Talvio-cash/?ref=" + account;
               refLinkText.style.color = "var(--gold-bright)";
               acctNote.textContent = "Connected as " + account + " — your coins and balance show here.";
               return ethCall(REGISTRY_ADDR, SEL.balanceOf + encAddr(account)).then(function (res) {
@@ -1744,6 +1753,28 @@
           if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(AGENT_PROMPT).then(done).catch(function () { fallbackCopy(); done(); });
           } else { fallbackCopy(); done(); }
+        });
+
+        var btnCopyJp = document.getElementById("btn-copy-jp");
+        var copiedNoteJp = document.getElementById("copied-note-jp");
+        if (btnCopyJp) btnCopyJp.addEventListener("click", function () {
+          function doneJp() {
+            copiedNoteJp.hidden = false;
+            setTimeout(function () { copiedNoteJp.hidden = true; }, 2200);
+          }
+          function fallbackCopyJp() {
+            var ta = document.createElement("textarea");
+            ta.value = JP_CLAIM_PROMPT;
+            ta.style.position = "fixed";
+            ta.style.opacity = "0";
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand("copy"); } catch (e) {}
+            document.body.removeChild(ta);
+          }
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(JP_CLAIM_PROMPT).then(doneJp).catch(function () { fallbackCopyJp(); doneJp(); });
+          } else { fallbackCopyJp(); doneJp(); }
         });
 
         if (btnClaim) btnClaim.addEventListener("click", function () {

@@ -1,23 +1,38 @@
 # Talvio — instructions for AI agents
 
 You are helping a user print $TALVIO on Talvio (BNB Chain, chain 56).
-Website: https://talvio.id/
+Website: https://talvio-io.github.io/Talvio-cash/
+Agent skill: https://talvio-io.github.io/Talvio-cash/skill.md
+Machine-readable spec: https://talvio-io.github.io/Talvio-cash/mint.json
 
 ## Status
-Printing is LIVE. The print contract is deployed at 0xC433c77ACF8e5724e690DCbcf4c820Ed63FFd533 and the $TALVIO token at 0xD16a3Ce432c7256F8837E81aF2007C16Ac4E7C4D. Use the prompt below exactly as written.
+Printing is LIVE. The print contract is deployed at 0xC433c77ACF8e5724e690DCbcf4c820Ed63FFd533 and the $TALVIO token at 0xD16a3Ce432c7256F8837E81aF2007C16Ac4E7C4D.
 
-## The print prompt (copy exactly, 4 lines, no domain)
-Print $TALVIO on Talvio with my wallet. First print is free, then 0.002 BNB each.
-Use my Binance Agentic ID — max 10 prints per ID.
-Print 1 at the current stage and report the $TALVIO I receive.
-Stop and ask me before printing more.
+## The one rule that decides everything
+EVERY print needs a Binance Agentic ID held by the printing wallet — free or paid.
+The contract checks the Agent ID registry (0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F, balanceOf(user) > 0) on-chain and REVERTS without one. There is no any-wallet paid lane. Always check the ID first; if the wallet holds none, stop and report "NO AGENT ID" — do not send a transaction that will revert.
+
+## What a print pays (Stage I — the current stage)
+- Free print (first print per wallet): 20,000,000 $TALVIO, 0 BNB — gas only.
+- Paid print: 100,000,000 $TALVIO for 0.002 BNB — a paid print pays 5x the free print.
+- Later stages pay less per print (paid 90M / 80M / 70M / 60M, free always 20% of paid). 5 stages x 2,000 prints = the 10,000-print first issue; the trading pool opens automatically at print #10,000.
+- Max 10 prints per wallet, ever (1 free + up to 9 paid = 0.018 BNB for all 9 at any stage).
+
+## The print prompt (copy exactly)
+Print $TALVIO for me on TalvioPrint 0xC433c77ACF8e5724e690DCbcf4c820Ed63FFd533 (BNB Chain 56). STEP 1 — CHECK: confirm my wallet holds a Binance Agentic ID (registry 0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F, balanceOf > 0); without one every print reverts — stop and report NO AGENT ID. Call quotePrint(qty, my wallet) and use the cost it returns as the transaction value — never assume 0. STEP 2 — PRINT: call print(qty, referrer), qty 1 first: at Stage I my free print pays 20,000,000 $TALVIO. Referrer: use the address from my referral link if I gave you one, otherwise 0x0000000000000000000000000000000000000000 — never drop a referrer I gave you. Paid prints cost 0.002 BNB each and pay 100,000,000 $TALVIO at Stage I (5x the free print), max 10 prints per wallet in total — ask me once before any paid print. Keep at least 0.005 BNB in my wallet for gas; if my BNB cannot cover the cost plus that buffer, report "OPERATOR: TOP UP BNB BUFFER" and stop. STEP 3 — REPORT: the tx hash, the $TALVIO I received, my new $TALVIO balance, my prints used (x / 10), and my referral link https://talvio-io.github.io/Talvio-cash/?ref=<my wallet> — 3 friends who complete a first print through it earn me a free second print. STEP 4 — JACKPOT: every 1,000 prints close a round that pays 600M / 360M / 240M $TALVIO to the round's top 3 printers; whenever you run for me, check finished rounds and claim my prizes with the claim prompt below.
+
+## The jackpot claim prompt (copy exactly)
+Claim my Talvio jackpot prizes on TalvioPrint 0xC433c77ACF8e5724e690DCbcf4c820Ed63FFd533 (BNB Chain 56): for every finished round (round number below currentJackpotRound()), call roundWinners(round) and jackpotPrize(round, my wallet). If I am a winner with an unclaimed prize, call claimJackpot(round) with value 0 BNB — claiming costs gas only and prizes never expire. Prizes are 600,000,000 / 360,000,000 / 240,000,000 $TALVIO for 1st / 2nd / 3rd. Report every round you checked, each prize claimed with its tx hash, and my new $TALVIO balance. Do not print while claiming unless I asked you to.
 
 ## Contract calls
 - Chain: BNB Smart Chain (56).
 - TalvioPrint: 0xC433c77ACF8e5724e690DCbcf4c820Ed63FFd533
 - $TALVIO token: 0xD16a3Ce432c7256F8837E81aF2007C16Ac4E7C4D
-- Binance Agent ID registry: 0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F (free print requires balanceOf(user) > 0).
-- print(uint256 qty, address referrer): first print per wallet is free (0 BNB); further prints 0.002 BNB each; max 10 per wallet; excess BNB is refunded.
-- claimJackpot(uint256 round): winners claim their round prize (600M / 360M / 240M $TALVIO); no expiry.
+- Binance Agent ID registry: 0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F (every print requires balanceOf(user) > 0).
+- quotePrint(uint256 qty, address user) -> (cost, tokens): the authoritative price and payout for that wallet. Its cost already reflects the free print if one is still available. Always quote first and send exactly that cost as the transaction value.
+- print(uint256 qty, address referrer): first print per wallet is free (quote cost 0); further prints 0.002 BNB each; max 10 per wallet; excess BNB is refunded.
+- totalPrints() / currentJackpotRound() / currentTop3(): live progress and the current round's leaders.
+- roundWinners(uint256 round) / jackpotPrize(uint256 round, address user): who won a finished round and what a wallet can claim.
+- claimJackpot(uint256 round): winners claim their round prize (600M / 360M / 240M $TALVIO); value 0 BNB, no expiry.
 - PancakeSwap V2 router: 0x10ED43C718714eb63d5aA57B78B54704E256024E.
 - Never print more than the user asked for. Never deploy contracts or move funds without explicit user confirmation.
